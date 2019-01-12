@@ -16,8 +16,8 @@ theme = "hyde-hyde"
 
 ## Site Settings
 [params]
-    author = "Author"
-    title = "Title"
+    author = "Tim Newans"
+    title = "Point Nine Four"
     # description = "..."
     authorimage = "/img/hugo.png"
     dateformat = "Jan 2, 2006"
@@ -38,30 +38,25 @@ theme = "hyde-hyde"
 
 ## Social Accounts
 [params.social]
-    github = "<username>"
-    instagram = "<username>"
-    xing = "<username>"
-    linkedin = "<username>"
-    twitter = "<username>"
-    facebook = "<username>"
-    stackoverflow = "<username>"
-    telegram = "<username>"
-    email = "your-email@example.com"
+    #github = "<username>"
+    #instagram = "<username>"
+    #xing = "<username>"
+    linkedin = "timnewans"
+    twitter = "pointninefour"
+    facebook = "pointninefour"
+    #stackoverflow = "<username>"
+    #telegram = "<username>"
+    email = "pointninefour@gmail.com"
     # gravatar = "your-email@example.com"
 
 ## Main Menu
 [[menu.main]]
-    name = "Posts"
-    weight = 100
-    identifier = "posts"
-    url = "/posts/"
-[[menu.main]]
-    name = "Portfolio"
-    identifier = "portfolio"
-    weight = 200
-    url = "/portfolio/"
-[[menu.main]]
     name = "About"
+    weight = 100
     identifier = "about"
-    weight = 300
     url = "/about/"
+[[menu.main]]
+    name = "Posts"
+    identifier = "posts"
+    weight = 200
+    url = "/posts/"
