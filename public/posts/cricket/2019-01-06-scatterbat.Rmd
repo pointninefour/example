@@ -1,0 +1,60 @@
+---
+title: BBL ScatterBat
+author: Tim Newans
+date: '2019-01-13'
+Categories:
+  - cricket
+Tags:
+  - rstats
+slug: scatterbat
+menu: main
+---
+```{r, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(hrbrthemes)
+library(kableExtra)
+library(stringr)
+library(DT)
+bats <- read.csv('C:/Users/Newans/pointninefour/static/bblbat.csv')
+bats$Batter <- str_trim(str_extract(bats$Batsman, "^[a-zA-Z '-]*"))
+```
+
+Introducing ScatterBat!
+
+ScatterBat displays every combination of runs scored and balls faced in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been 1,137 entries.
+```{r, echo=FALSE}
+ScatterBats <- bats %>% 
+                 distinct(R,B, .keep_all = TRUE) %>%
+                 select(Season, Season.Match.No, Batter, R, B) 
+colnames(ScatterBats)[colnames(ScatterBats) == 'Season.Match.No'] <- 'Match'
+
+  
+ggplot(ScatterBats, aes(R,B)) +
+  geom_bin2d(binwidth = c(0.99999,0.99999)) +
+  theme_ipsum_rc() +
+  theme(legend.position="none") +
+  labs(x ="Runs",y ="Balls", title = "BBL ScatterBat - Every BBL Innings Visualised")
+```
+
+This next table allows you to pin-point every innings that is displayed on ScatterBat. Keep in mind, this only displays the first time that each combination has occurred. As a result, it means that the first BBL match contributed 14 innings to this figure.
+
+```{r, echo=FALSE}
+datatable(ScatterBats, caption = 'Table 1: Every ScatterBat Combination.')
+```
+
+We can map out how many combinations have been completed each season:
+
+```{r,echo=FALSE}
+datatable(ScatterBats %>% 
+  group_by(Season) %>%
+  summarise(n()), colnames = c("Season","No. of Combinations"), rownames = FALSE, caption = 'Table 2: Number of Combinations by BBL Season.',options = list(dom = 't'))
+```
+
+We can also map out how many combinations each player has contributed:
+
+```{r,echo=FALSE}
+datatable(ScatterBats %>% 
+  group_by(Batter) %>%
+  summarise(n()), colnames = c("Season","No. of Combinations"), rownames = FALSE, caption = 'Table 3: Number of Combinations by Batter.',options = list(dom = 'ft'))
+```

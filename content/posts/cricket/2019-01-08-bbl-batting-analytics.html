@@ -1,0 +1,328 @@
+---
+title: BBL Batting Analytics
+author: Tim Newans
+date: '2019-01-08'
+slug: bbl-batting-analytics
+categories:
+  - cricket
+tags:
+  - rstats
+lastmod: '2019-01-08T21:26:19+10:00'
+---
+
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p>As BBL|08 is upon us, I decided to take a look over the past seven seasons and understand the Big Bash from a statistical standpoint. To be able to have such a large dataset has been a lot of fun and I’d love suggestions for further comparisons to be made. This first article will focus on batsmen, with future articles to follow on bowlers and teams.</p>
+<p>This is also my first attempt at writing a blog post within RMarkdown, so be with me. The lines of code are for those interested in either replicating or understanding how each figure has been developed.</p>
+<p>All the data has been sourced from cricinfo.com, all credit to them!</p>
+<p>So without further ado, let’s get to it!</p>
+<div id="what-does-a-typical-batting-innings-look-like" class="section level2">
+<h2>What does a typical batting innings look like?</h2>
+<p>While this question seems ironic when we are talking about the Big Bash, but before we break down innings by dismissals and strike rates, we first need to understand where the predominant amount of innings lie. There has been a total of 3,887 innings, with 877 of those batsmen remaining in at the crease at the close of play.</p>
+<pre class="r"><code>ggplot(bats, aes(x = R, fill = Dismissed)) +
+  geom_density(alpha = .3) +
+  theme_ipsum_rc() +
+  labs(x = &quot;Runs&quot;, y = &quot;Density&quot;,
+       title = &quot;Density of BBL Innings Runs&quot;)</code></pre>
+<p><img src="/posts/cricket/2019-01-08-bbl-batting-analytics_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>From this we can see that the predominant amount of runs score in an innings are between 0-35 runs, regardless of whether the batsman was dismissed or not. However, we can see a slightly higher proportion of “not out” innings in the innings greater than 100 runs, which is also to be expected.</p>
+<p>When assessing the 3,887 innings, we can break it down by the mode of dismissal to understand how most dismissals occur. “Caught Behinds” and “Caught and Bowled” have been separated from the general “Caught” mode of dismissal.</p>
+</div>
+<div id="what-is-the-most-common-dismissal-in-big-bash" class="section level2">
+<h2>What is the most common dismissal in Big Bash?</h2>
+<pre class="r"><code>ggplot(ModeFreq, aes(x = reorder(Var1,-Freq), y = Freq, fill = Var1)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  geom_text(aes(label=Freq), vjust=-0.3, size=3.5)+
+  coord_cartesian(ylim = c(0,1800)) +
+  guides(fill = FALSE) +
+  labs(title = &quot;Modes of Dismissal across all Big Bash Matches&quot;, 
+       x = &quot;Mode of Dismissal&quot;, y = &quot;Frequency&quot;) +
+  theme_ipsum_rc()  +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))</code></pre>
+<p><img src="/posts/cricket/2019-01-08-bbl-batting-analytics_files/figure-html/unnamed-chunk-2-1.png" width="672" /> Of the 3010 dismissals, 65.9% were out caught in some form (with 82% of those caught in the outfield), 17.7% were bowled, 8.4% were run out, with only 5.1% given out LBW. Alex Ross holds the unfortunate record of being the only batsman to have been given out ‘obstructing the field’ in Big Bash. Brad Haddin, Nick Buchanan, Moises Henriques, Luke Wright, and Andre Russell are the five batsmen to have cleaned up their own stumps.</p>
+<p>So now that we have understood where the bulk of the dismissals lie, we can then analyse whether there is any difference in the runs scored within each dismissal category.</p>
+</div>
+<div id="is-there-a-difference-in-the-runs-for-each-mode-of-dismissal" class="section level2">
+<h2>Is there a difference in the runs for each mode of dismissal?</h2>
+<p>With only five “hit wickets” and one “obstructing the field”, they were excluded from the density plot, which shows the proportion of runs scored for each mode of dismissal.</p>
+<pre class="r"><code>ggplot(commonDismissals, aes(x = R, fill = Mode)) +
+  geom_density(alpha = .3) +
+  theme_ipsum_rc() +
+  labs(x = &quot;Runs&quot;, y = &quot;Density&quot;,
+       title = &quot;Big Bash Runs by Mode of Dismissal&quot;)</code></pre>
+<p><img src="/posts/cricket/2019-01-08-bbl-batting-analytics_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>We can see that the those that are dismissed either bowled and caught behind are the most likely to be dismissed early on, while those that are stumped are less likely to dismissed in the early stages compared to other dismissals, with more dismissals found in the 15-45 run range.</p>
+<p>But what about the role of each player in the batting order?</p>
+</div>
+<div id="how-do-the-runs-by-batting-order-positions-change" class="section level2">
+<h2>How do the runs by batting order positions change?</h2>
+<p>To see the difference in runs based upon position in the order, we’ve first got to control for the fact that more batsmen have batting in a position more than others which may skew the results. As a results, the data gets passed through a linear mixed model to account for multiple entries per batsman before generating the averages. Similarly, because there are plenty of 0* innings (76 in fact), only those dismissed are included in the graph.</p>
+<pre class="r"><code>lm = lmer(R ~ Order + (1|Batsman), data = dismissed)
+ef &lt;- effect(&quot;Order&quot;,lm)
+x &lt;- as.data.frame(ef)
+x$Order &lt;- factor(x$Order, levels = c(1:11))
+ggplot(x, aes(Order, fit, fill = Order)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  coord_cartesian(ylim = c(0,27)) +
+  geom_errorbar(aes(ymin = fit,ymax = upper), width = 0.4) +
+  guides(fill = FALSE) +
+  labs(x = &quot;Batting Order&quot;, y = &quot;Average Runs&quot;,
+       title = &quot;Big Bash Runs by Batting Order&quot;) +
+  theme_ipsum_rc()</code></pre>
+<p><img src="/posts/cricket/2019-01-08-bbl-batting-analytics_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>What we see is possibly as expected, with the top 4 positions all averaging over 20 runs per dismissal. Each position thereafter are stepped down, with an average of 1.4 runs per dismissal in the number 11 position. Also note, the errors refer to the standard error, a measure of uncertainty due to sample size and spread.</p>
+<p>How about whether the batsman is the captain of a team? Does that change the runs they score?</p>
+</div>
+<div id="does-captaincy-affect-the-output-of-runs" class="section level2">
+<h2>Does captaincy affect the output of runs?</h2>
+<pre class="r"><code>ggplot(bats, aes(x = R, fill = Captain)) +
+  geom_density(alpha = .3) +
+  theme_ipsum_rc() +
+  labs(x = &quot;Runs&quot;, y = &quot;Density&quot;,
+       title = &quot;BBL Runs by Captaincy&quot;)</code></pre>
+<p><img src="/posts/cricket/2019-01-08-bbl-batting-analytics_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Captains have a much lower gradient than non-captains, with captains far less likely to get dismissed early in their innings and much more likely to go on to make a big score.</p>
+<p>Although one aspect that is missing in amongst all this, is that the not only are the runs scored important, but also the strike rate in which they scored those runs.</p>
+</div>
+<div id="what-is-the-relationship-between-runs-scored-and-balls-faced" class="section level2">
+<h2>What is the relationship between runs scored and balls faced?</h2>
+<p>To see what the relationship between runs and balls faced within Big Bash matches a look like, this graph shows every innings to highlight the most- and least-likely scores across all batsmen.</p>
+<pre class="r"><code>ggplot(bats, aes(R,B)) +
+  geom_bin2d(binwidth = c(1,1)) +
+  theme_ipsum_rc() +
+  scale_fill_gradient(limits=c(0,100), 
+                       breaks=seq(0, 100, by=20),
+                       low = &quot;lightblue&quot;,
+                       high = &quot;darkblue&quot;) +
+  labs(x = &quot;Runs&quot;, y = &quot;Balls&quot;,
+       title = &quot;Big Bash Batting Heat Map&quot;)</code></pre>
+<p><img src="/posts/cricket/2019-01-08-bbl-batting-analytics_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>While the majority of data points lie within the range of 0-10 runs and 0-10 balls faced, we can see a gradual dispersing as the amount of balls faced increases. Interestingly, while no batsman has faced over 70 balls, yet three batson have faced exactly 70 balls (plus D’Arcy Short who faced 69 in his 122*).</p>
+<p>As a result, we can pick out the most-likely scores that haven’t been scored yet. From this distribution the three most likely would be: * 6 off 12 deliveries * 13 off 6 deliveries * 5 off 1 delivery</p>
+<p>Because machines don’t know how cricket works, it assumes 5 off 1 delivery could be likely; however, in this case it is much more likely that other scorelines will appear before 5(1) ever appears on a scoresheet.</p>
+</div>
+<div id="what-would-the-perfect-big-bash-innings-look-like" class="section level2">
+<h2>What would the perfect Big Bash innings look like?</h2>
+<p>One final aspect you can pull out from this graph is the idea of what’s called a ‘Pareto-Optimal innings’. This would be more commonly referred to as ‘the perfect innings’. How it works, is you can only have a Pareto-Optimal innings if no one else has score more runs at a fast strike rate than you have.</p>
+<p>Across all of Big Bash there are 12 Pareto-Optimal innings, they are as follows:</p>
+<pre class="r"><code>listPareto &lt;- psel(bats,high(R)*high(SR)*high(Boundaries))
+listPareto &lt;- listPareto %&gt;% 
+                  filter(SR &gt; 0) %&gt;%
+                  select(Batsman, R,B,SR)%&gt;%
+                  arrange(desc(R))
+kable(listPareto) %&gt;%
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;), full_width = F, position = &quot;left&quot;) %&gt;%
+  add_header_above(c(&quot;Pareto-Optimal BBL Innings Honour Board&quot;=4))</code></pre>
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="4">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px;">
+Pareto-Optimal BBL Innings Honour Board
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:left;">
+Batsman
+</th>
+<th style="text-align:right;">
+R
+</th>
+<th style="text-align:right;">
+B
+</th>
+<th style="text-align:right;">
+SR
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+DJM Short
+</td>
+<td style="text-align:right;">
+122
+</td>
+<td style="text-align:right;">
+69
+</td>
+<td style="text-align:right;">
+176.81
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LJ Wright
+</td>
+<td style="text-align:right;">
+117
+</td>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+195.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BR McDermott
+</td>
+<td style="text-align:right;">
+114
+</td>
+<td style="text-align:right;">
+52
+</td>
+<td style="text-align:right;">
+219.23
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CJ Simmons
+</td>
+<td style="text-align:right;">
+102
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:right;">
+248.78
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CH Gayle
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+329.41
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AD Hales
+</td>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+257.89
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DT Christian
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+377.78
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NM Coulter-Nile
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+383.33
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BJ Webster
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+450.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AU Rashid
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+466.67
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BW Hilfenhaus
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+500.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JS Lehmann
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+600.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AC Voges (c)
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+600.00
+</td>
+</tr>
+</tbody>
+</table>
+<p>It is highly unlikely that anyone will be able to knock Jake Lehmann and Adam Voges off that list, unless someone manages to score 7 off the final delivery of an innings. However, should someone hit two 6’s off the final two balls of an innings, Hilfy will be usurped from his position on the ‘Pareto-Optimal Innings Honour Board’.</p>
+<p>So that wraps up the first of a few articles that I will aim to be posting over the next few weeks in the lead-up to the start of BBL|08. Keen to hear everyone’s thoughts either here or through my twitter <span class="citation">@pointninefour</span> which I will hopefully continue to be active on across the summer.</p>
+</div>

@@ -19,7 +19,7 @@ theme = "hyde-hyde"
     author = "Tim Newans"
     title = "Point Nine Four"
     # description = "..."
-    authorimage = "/img/hugo.png"
+    # authorimage = "/img/hugo.png"
     dateformat = "Jan 2, 2006"
     ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
@@ -56,7 +56,7 @@ theme = "hyde-hyde"
     identifier = "about"
     url = "/about/"
 [[menu.main]]
-    name = "Posts"
-    identifier = "posts"
+    name = "Cricket"
+    identifier = "cricket"
     weight = 200
-    url = "/posts/"
+    url = "/categories/cricket/"

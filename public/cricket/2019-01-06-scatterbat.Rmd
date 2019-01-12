@@ -1,0 +1,36 @@
+---
+title: ScatterBat
+author: Tim Newans
+date: '2019-01-06'
+Categories:
+  - cricket
+Tags:
+  - rstats
+slug: scatterbat
+---
+```{r, echo=FALSE}
+library(dplyr)
+library(ggplot2)
+library(hrbrthemes)
+library(kableExtra)
+library(stringr)
+library(DT)
+bats <- read.csv('C:/Users/Newans/pointninefour/static/bblbat.csv')
+bats$Batter <- str_trim(str_extract(bats$Batsman, "^[a-zA-Z '-]*"))
+```
+
+Introducting ScatterBat!
+```{r}
+ScatterBats <- bats %>% 
+                 distinct(R,B, .keep_all = TRUE) %>%
+                 select(Season, Season.Match.No, Batter, R, B) 
+colnames(ScatterBats)[colnames(ScatterBats) == 'Season.Match.No'] <- 'Match'
+
+  
+ggplot(ScatterBats, aes(R,B)) +
+  geom_bin2d(binwidth = c(0.99999,0.99999)) +
+  theme_ipsum_rc() +
+  theme(legend.position="none") +
+  labs(x ="Runs",y ="Balls", title = "BBL ScatterBat - Every BBL Innings Visualised")
+
+datatable(ScatterBats)

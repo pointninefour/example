@@ -23,7 +23,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/" />
-<meta property="og:updated_time" content="2014-09-28T00:00:00&#43;00:00"/><meta property="og:site_name" content="Point Nine Four" />
+<meta property="og:updated_time" content="2019-01-13T00:00:00&#43;00:00"/><meta property="og:site_name" content="Point Nine Four" />
 
 
     
@@ -71,14 +71,6 @@
         <a href="/">Point Nine Four</a>
       </span>
       
-        
-        
-        
-        <div class="author-image">
-          <img src="//img/hugo.png" alt="Author Image" class="img--circle img--headshot element--center">
-        </div>
-        
-      
       
       <p class="site__description">
         
@@ -102,8 +94,16 @@
 		 
 			 
 				<li>
-					<a href="/posts/">
-						<span>Posts</span>
+					<a href="/categories/cricket/">
+						<span>Cricket</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/cricket/scatterbat/">
+						<span>BBL ScatterBat</span>
 					</a>
 				</li>
 			 
@@ -155,19 +155,19 @@
       
       <div class="post-list__item">
         <span class="item__title--big">
-          <a href="/posts/creating-a-new-theme/" >Creating a New Theme</a>
+          <a href="/posts/cricket/scatterbat/" >BBL ScatterBat</a>
         </span>
         <span class="item__date">
-          Sep 28, 2014
+          Jan 13, 2019
         </span>
         <span >
         
-        Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&rsquo;t cover using CSS to style your theme.
-We&rsquo;ll start with creating a new site with a very basic template.
+        Introducing ScatterBat!
+ScatterBat displays every combination of runs scored and balls faced in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been 1,137 entries. This next table allows you to pin-point every innings that is displayed on ScatterBat. Keep in mind, this only displays the first time that each combination has occurred.
         
         </span>
         
-          ... <a class="read-more-symbol" href="/posts/creating-a-new-theme/">➦</a>
+          ... <a class="read-more-symbol" href="/posts/cricket/scatterbat/">➦</a>
         
         </div>
         
@@ -177,20 +177,20 @@ We&rsquo;ll start with creating a new site with a very basic template.
       
       <div class="post-list__item">
         <span class="item__title--big">
-          <a href="/posts/migrate-from-jekyll/" >Migrate to Hugo from Jekyll</a>
+          <a href="/posts/cricket/an-analytical-guide-to-bbl-bowling/" >An Analytical Guide to BBL - Bowling</a>
         </span>
         <span class="item__date">
-          Mar 10, 2014
+          Jan 12, 2019
         </span>
         <span >
         
-        Move static content to static Jekyll has a rule that any directory not starting with _ will be copied as-is to the _site output. Hugo keeps all static content under static. You should therefore move it all there. With Jekyll, something that looked like
-▾ &lt;root&gt;/ ▾ images/ logo.png  should become
-▾ &lt;root&gt;/ ▾ static/ ▾ images/ logo.png  Additionally, you&rsquo;ll want any files that should reside at the root (such as CNAME) to be moved to static.
+        Insert Lead paragraph here.
+A augue nunc lacus auctor efficitur tempor placerat, dictum volutpat mi vitae viverra porta non sem, himenaeos senectus vivamus potenti cubilia sollicitudin. Curae cursus inceptos tincidunt magna mi nibh ad enim etiam, molestie eu quis primis hendrerit taciti phasellus. Feugiat ultricies dictumst iaculis potenti odio laoreet urna at, ultrices curae leo accumsan proin sem lobortis.
+Heading 2Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum vestibulum porta mauris lorem, ullamcorper class fermentum sem hendrerit ante augue penatibus scelerisque felis leo proin,ad nascetur venenatis sodales dignissim viverra suspendisse turpis convallis condimentum sapien.
         
         </span>
         
-          ... <a class="read-more-symbol" href="/posts/migrate-from-jekyll/">➦</a>
+          ... <a class="read-more-symbol" href="/posts/cricket/an-analytical-guide-to-bbl-bowling/">➦</a>
         
         </div>
         
@@ -200,45 +200,19 @@ We&rsquo;ll start with creating a new site with a very basic template.
       
       <div class="post-list__item">
         <span class="item__title--big">
-          <a href="/posts/goisforlovers/" >(Hu)go Template Primer</a>
+          <a href="/posts/cricket/bbl-batting-analytics/" >BBL Batting Analytics</a>
         </span>
         <span class="item__date">
-          Apr 2, 2014
+          Jan 8, 2019
         </span>
         <span >
         
-        Hugo uses the excellent go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website. If you have used other template systems from different languages or frameworks you will find a lot of similarities in go templates.
-This document is a brief primer on using go templates.
+        As BBL|08 is upon us, I decided to take a look over the past seven seasons and understand the Big Bash from a statistical standpoint. To be able to have such a large dataset has been a lot of fun and I’d love suggestions for further comparisons to be made. This first article will focus on batsmen, with future articles to follow on bowlers and teams.
+This is also my first attempt at writing a blog post within RMarkdown, so be with me.
         
         </span>
         
-          ... <a class="read-more-symbol" href="/posts/goisforlovers/">➦</a>
-        
-        </div>
-        
-     
-      
-        
-      
-      <div class="post-list__item">
-        <span class="item__title--big">
-          <a href="/posts/hugoisforlovers/" >Getting Started with Hugo</a>
-        </span>
-        <span class="item__date">
-          Apr 2, 2014
-        </span>
-        <span >
-        
-        Step 1. Install Hugo Goto hugo releases and download the appropriate version for your os and architecture.
-Save it somewhere specific as we will be using it in the next step.
-More complete instructions are available at installing hugo
-Step 2. Build the Docs Hugo has its own example site which happens to also be the documentation site you are reading right now.
-Follow the following steps:
- Clone the hugo repository Go into the repo Run hugo in server mode and build the docs Open your browser to http://localhost:1313  Corresponding pseudo commands:
-        
-        </span>
-        
-          ... <a class="read-more-symbol" href="/posts/hugoisforlovers/">➦</a>
+          ... <a class="read-more-symbol" href="/posts/cricket/bbl-batting-analytics/">➦</a>
         
         </div>
         

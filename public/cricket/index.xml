@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Crickets on Point Nine Four</title>
+    <link>/cricket/</link>
+    <description>Recent content in Crickets on Point Nine Four</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 12 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/cricket/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>An Analytical Guide to BBL - Bowling</title>
+      <link>/cricket/an-analytical-guide-to-bbl-bowling/</link>
+      <pubDate>Sat, 12 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cricket/an-analytical-guide-to-bbl-bowling/</guid>
+      <description>Insert Lead paragraph here.
+A augue nunc lacus auctor efficitur tempor placerat, dictum volutpat mi vitae viverra porta non sem, himenaeos senectus vivamus potenti cubilia sollicitudin. Curae cursus inceptos tincidunt magna mi nibh ad enim etiam, molestie eu quis primis hendrerit taciti phasellus. Feugiat ultricies dictumst iaculis potenti odio laoreet urna at, ultrices curae leo accumsan proin sem lobortis.
+Heading 2Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum vestibulum porta mauris lorem, ullamcorper class fermentum sem hendrerit ante augue penatibus scelerisque felis leo proin,ad nascetur venenatis sodales dignissim viverra suspendisse turpis convallis condimentum sapien.</description>
+    </item>
+    
+    <item>
+      <title>BBL Batting Analytics</title>
+      <link>/cricket/bbl-batting-analytics/</link>
+      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cricket/bbl-batting-analytics/</guid>
+      <description>As BBL|08 is upon us, I decided to take a look over the past seven seasons and understand the Big Bash from a statistical standpoint. To be able to have such a large dataset has been a lot of fun and I’d love suggestions for further comparisons to be made. This first article will focus on batsmen, with future articles to follow on bowlers and teams.
+This is also my first attempt at writing a blog post within RMarkdown, so be with me.</description>
+    </item>
+    
+    <item>
+      <title>ScatterBat</title>
+      <link>/cricket/scatterbat/</link>
+      <pubDate>Sun, 06 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cricket/scatterbat/</guid>
+      <description>## ## Attaching package: &amp;#39;dplyr&amp;#39;## The following objects are masked from &amp;#39;package:stats&amp;#39;:## ## filter, lag## The following objects are masked from &amp;#39;package:base&amp;#39;:## ## intersect, setdiff, setequal, unionIntroducting ScatterBat!
+ScatterBats &amp;lt;- bats %&amp;gt;% distinct(R,B, .keep_all = TRUE) %&amp;gt;%select(Season, Season.Match.No, Batter, R, B) colnames(ScatterBats)[colnames(ScatterBats) == &amp;#39;Season.Match.No&amp;#39;] &amp;lt;- &amp;#39;Match&amp;#39;ggplot(ScatterBats, aes(R,B)) +geom_bin2d(binwidth = c(0.99999,0.99999)) +theme_ipsum_rc() +theme(legend.position=&amp;quot;none&amp;quot;) +labs(x =&amp;quot;Runs&amp;quot;,y =&amp;quot;Balls&amp;quot;, title = &amp;quot;BBL ScatterBat - Every BBL Innings Visualised&amp;quot;)datatable(ScatterBats){&#34;</description>
+    </item>
+    
+  </channel>
+</rss>
