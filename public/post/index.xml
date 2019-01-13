@@ -6,20 +6,20 @@
     <description>Recent content in Posts on Point Nine Four</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Jul 2015 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Sun, 13 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Hello R Markdown</title>
-      <link>/post/2015-07-23-r-rmarkdown/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      <title>BBL ScatterBowl</title>
+      <link>/post/scatterbowl/</link>
+      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/2015-07-23-r-rmarkdown/</guid>
-      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-You can embed an R code chunk like this:
-summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+      <guid>/post/scatterbowl/</guid>
+      <description>Introducing ScatterBat!
+ScatterBowl displays every combination of wickets taken and runs conceded in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been 229 entries.
+ScatterBowl &amp;lt;- bowl %&amp;gt;% distinct(W,R, .keep_all = TRUE) %&amp;gt;%select(Season, Match.No, Bowling, W, R) colnames(ScatterBowl)[colnames(ScatterBowl) == &amp;#39;Match.No&amp;#39;] &amp;lt;- &amp;#39;Match&amp;#39;ggplot(ScatterBowl, aes(R,W)) +geom_bin2d(binwidth = c(0.</description>
     </item>
     
   </channel>

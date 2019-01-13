@@ -9,18 +9,2407 @@ tags:
   - rstats
 lastmod: '2019-01-12T21:45:40+10:00'
 linktitle: BBL Bowling
-highlight: no
 ---
 
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
 
 
-<p><strong>Insert Lead paragraph here.</strong></p>
-<p>A augue nunc lacus auctor efficitur tempor placerat, dictum volutpat mi vitae viverra porta non sem, himenaeos senectus vivamus potenti cubilia sollicitudin. Curae cursus inceptos tincidunt magna mi nibh ad enim etiam, molestie eu quis primis hendrerit taciti phasellus. Feugiat ultricies dictumst iaculis potenti odio laoreet urna at, ultrices curae leo accumsan proin sem lobortis.</p>
-<div id="heading-2" class="section level2">
-<h2>Heading 2</h2>
-<p>Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum vestibulum porta mauris lorem, ullamcorper class fermentum sem hendrerit ante augue penatibus scelerisque felis leo proin,ad nascetur venenatis sodales dignissim viverra suspendisse turpis convallis condimentum sapien.</p>
-<div id="heading-3" class="section level3">
-<h3>Heading 3</h3>
-<p>At quisque litora ullamcorper maecenas ultricies ut dignissim luctus curabitur, cras congue eget primis aliquam fringilla nulla dictum posuere, vestibulum sit magnis nisl praesent eros ipsum nunc. Ligula lacus ipsum orci aenean integer pharetra habitasse interdum, porttitor etiam hac feugiat placerat morbi posuere turpis leo, quam at amet gravida commodo fringilla erat.</p>
+<p>As a follow-on from my previous blog post, the next article in this series of Big Bash posts is focusing on the bowlers in BBL. In the similar way as the past article, this is written in RMarkdown so I’d love feedback on how it is and what other content people would like to see!</p>
+<div id="who-is-the-highest-wicket-taker-in-bbl" class="section level2">
+<h2>Who is the highest wicket-taker in BBL?</h2>
+<p>First, we will look at the top wicket-takers across the past seven seasons. Here are the top 10:</p>
+<pre class="r"><code>sumBowl &lt;- bowl %&gt;% 
+  group_by(Bowling) %&gt;%
+  summarise(Innings = n(),Balls = sum(Balls), Wickets = sum(W), Runs = sum(R)) %&gt;%
+  arrange(desc(Wickets))
+ggplot(sumBowl %&gt;% head(10), 
+       aes(x = reorder(Bowling,-Wickets), y = Wickets, fill = Bowling)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  geom_text(aes(label=Wickets), vjust=-0.3, size=3.5)+
+  coord_cartesian(ylim = c(0,100)) +
+  guides(fill = FALSE) +
+  labs(title = &quot;Highest Wicket Takers&quot;, 
+       x = &quot;Bowler&quot;, y = &quot;Frequency&quot;) +
+  theme_ipsum_rc()  +
+  theme(axis.text.x = element_text(angle = 30, vjust = 0.7))</code></pre>
+<p><img src="/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Ben Laughlin dominates the list with 92 wickets, with the likes of Tye and Abbot gaining podium positions. The ‘Wild Thing’ rounds out the top 10. However, wickets are not the only things that matter, the amount of runs conceded while taking wickets is also important, therefore things such as average, strike rates, and economy are also important to consider.</p>
+<pre class="r"><code>statBowl &lt;- sumBowl
+statBowl$Average &lt;- statBowl$Runs/statBowl$Wickets
+statBowl$Economy &lt;- statBowl$Runs/statBowl$Balls*6
+statBowl$StrikeRate &lt;- statBowl$Balls/statBowl$Wickets
+statBowl &lt;- statBowl %&gt;% 
+  filter(Balls &gt; 100) %&gt;% 
+  arrange(Average) %&gt;%
+    mutate_at(vars(Average, Economy, StrikeRate), funs(round(., 3)))
+statBowl %&gt;%
+  select(Bowling,Average,Economy,StrikeRate) %&gt;%
+  kable() %&gt;%
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;), full_width = F, position = &quot;center&quot;) %&gt;%
+  scroll_box(width = &quot;100%&quot;, height = &quot;350px&quot;) </code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Bowling
+</th>
+<th style="text-align:right;">
+Average
+</th>
+<th style="text-align:right;">
+Economy
+</th>
+<th style="text-align:right;">
+StrikeRate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+TK Curran
+</td>
+<td style="text-align:right;">
+12.556
+</td>
+<td style="text-align:right;">
+6.647
+</td>
+<td style="text-align:right;">
+11.333
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rashid Khan
+</td>
+<td style="text-align:right;">
+13.154
+</td>
+<td style="text-align:right;">
+5.344
+</td>
+<td style="text-align:right;">
+14.769
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AU Rashid
+</td>
+<td style="text-align:right;">
+14.125
+</td>
+<td style="text-align:right;">
+6.519
+</td>
+<td style="text-align:right;">
+13.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Shakib Al Hasan
+</td>
+<td style="text-align:right;">
+14.222
+</td>
+<td style="text-align:right;">
+6.095
+</td>
+<td style="text-align:right;">
+14.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MA Starc
+</td>
+<td style="text-align:right;">
+14.850
+</td>
+<td style="text-align:right;">
+7.920
+</td>
+<td style="text-align:right;">
+11.250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SL Malinga
+</td>
+<td style="text-align:right;">
+15.000
+</td>
+<td style="text-align:right;">
+5.400
+</td>
+<td style="text-align:right;">
+16.667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CR Brathwaite
+</td>
+<td style="text-align:right;">
+16.083
+</td>
+<td style="text-align:right;">
+7.519
+</td>
+<td style="text-align:right;">
+12.833
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M Kelly
+</td>
+<td style="text-align:right;">
+16.625
+</td>
+<td style="text-align:right;">
+7.000
+</td>
+<td style="text-align:right;">
+14.250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Naved-ul-Hasan
+</td>
+<td style="text-align:right;">
+17.000
+</td>
+<td style="text-align:right;">
+8.010
+</td>
+<td style="text-align:right;">
+12.733
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JK Reed
+</td>
+<td style="text-align:right;">
+17.312
+</td>
+<td style="text-align:right;">
+8.935
+</td>
+<td style="text-align:right;">
+11.625
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NM Lyon
+</td>
+<td style="text-align:right;">
+17.361
+</td>
+<td style="text-align:right;">
+6.818
+</td>
+<td style="text-align:right;">
+15.278
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Yasir Arafat
+</td>
+<td style="text-align:right;">
+17.370
+</td>
+<td style="text-align:right;">
+7.626
+</td>
+<td style="text-align:right;">
+13.667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CJ Jordan
+</td>
+<td style="text-align:right;">
+17.556
+</td>
+<td style="text-align:right;">
+9.294
+</td>
+<td style="text-align:right;">
+11.333
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AJ Turner
+</td>
+<td style="text-align:right;">
+17.909
+</td>
+<td style="text-align:right;">
+7.036
+</td>
+<td style="text-align:right;">
+15.273
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MN Samuels
+</td>
+<td style="text-align:right;">
+18.125
+</td>
+<td style="text-align:right;">
+6.591
+</td>
+<td style="text-align:right;">
+16.500
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JP Behrendorff
+</td>
+<td style="text-align:right;">
+18.288
+</td>
+<td style="text-align:right;">
+6.793
+</td>
+<td style="text-align:right;">
+16.154
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M Muralitharan
+</td>
+<td style="text-align:right;">
+18.316
+</td>
+<td style="text-align:right;">
+5.705
+</td>
+<td style="text-align:right;">
+19.263
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NLTC Perera
+</td>
+<td style="text-align:right;">
+19.071
+</td>
+<td style="text-align:right;">
+9.102
+</td>
+<td style="text-align:right;">
+12.571
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AJ Tye
+</td>
+<td style="text-align:right;">
+19.627
+</td>
+<td style="text-align:right;">
+7.384
+</td>
+<td style="text-align:right;">
+15.949
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DJ Hussey
+</td>
+<td style="text-align:right;">
+20.000
+</td>
+<td style="text-align:right;">
+7.500
+</td>
+<td style="text-align:right;">
+16.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SM Harwood
+</td>
+<td style="text-align:right;">
+20.000
+</td>
+<td style="text-align:right;">
+8.235
+</td>
+<td style="text-align:right;">
+14.571
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JR Hazlewood
+</td>
+<td style="text-align:right;">
+20.190
+</td>
+<td style="text-align:right;">
+8.000
+</td>
+<td style="text-align:right;">
+15.143
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TT Bresnan
+</td>
+<td style="text-align:right;">
+20.333
+</td>
+<td style="text-align:right;">
+8.483
+</td>
+<td style="text-align:right;">
+14.381
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JR Coleman
+</td>
+<td style="text-align:right;">
+20.750
+</td>
+<td style="text-align:right;">
+7.433
+</td>
+<td style="text-align:right;">
+16.750
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Shahid Afridi
+</td>
+<td style="text-align:right;">
+20.800
+</td>
+<td style="text-align:right;">
+7.473
+</td>
+<td style="text-align:right;">
+16.700
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B Laughlin
+</td>
+<td style="text-align:right;">
+20.931
+</td>
+<td style="text-align:right;">
+7.821
+</td>
+<td style="text-align:right;">
+16.057
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PM Siddle
+</td>
+<td style="text-align:right;">
+21.200
+</td>
+<td style="text-align:right;">
+6.328
+</td>
+<td style="text-align:right;">
+20.100
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JW Hastings
+</td>
+<td style="text-align:right;">
+21.240
+</td>
+<td style="text-align:right;">
+7.876
+</td>
+<td style="text-align:right;">
+16.180
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NM Coulter-Nile
+</td>
+<td style="text-align:right;">
+21.514
+</td>
+<td style="text-align:right;">
+7.569
+</td>
+<td style="text-align:right;">
+17.054
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DR Sams
+</td>
+<td style="text-align:right;">
+21.800
+</td>
+<td style="text-align:right;">
+8.278
+</td>
+<td style="text-align:right;">
+15.800
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BM Edmondson
+</td>
+<td style="text-align:right;">
+22.133
+</td>
+<td style="text-align:right;">
+8.623
+</td>
+<td style="text-align:right;">
+15.400
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KA Pollard
+</td>
+<td style="text-align:right;">
+22.250
+</td>
+<td style="text-align:right;">
+9.368
+</td>
+<td style="text-align:right;">
+14.250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JC Archer
+</td>
+<td style="text-align:right;">
+22.273
+</td>
+<td style="text-align:right;">
+7.861
+</td>
+<td style="text-align:right;">
+17.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AC McDermott
+</td>
+<td style="text-align:right;">
+22.304
+</td>
+<td style="text-align:right;">
+8.341
+</td>
+<td style="text-align:right;">
+16.043
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MG Johnson
+</td>
+<td style="text-align:right;">
+22.750
+</td>
+<td style="text-align:right;">
+6.149
+</td>
+<td style="text-align:right;">
+22.200
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B Stanlake
+</td>
+<td style="text-align:right;">
+22.769
+</td>
+<td style="text-align:right;">
+7.279
+</td>
+<td style="text-align:right;">
+18.769
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JP Faulkner
+</td>
+<td style="text-align:right;">
+22.804
+</td>
+<td style="text-align:right;">
+7.635
+</td>
+<td style="text-align:right;">
+17.922
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DJ Willey
+</td>
+<td style="text-align:right;">
+23.120
+</td>
+<td style="text-align:right;">
+7.316
+</td>
+<td style="text-align:right;">
+18.960
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SW Tait
+</td>
+<td style="text-align:right;">
+23.217
+</td>
+<td style="text-align:right;">
+8.659
+</td>
+<td style="text-align:right;">
+16.087
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SA Abbott
+</td>
+<td style="text-align:right;">
+23.243
+</td>
+<td style="text-align:right;">
+8.724
+</td>
+<td style="text-align:right;">
+15.986
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CJ Gannon
+</td>
+<td style="text-align:right;">
+23.259
+</td>
+<td style="text-align:right;">
+8.971
+</td>
+<td style="text-align:right;">
+15.556
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TM Head
+</td>
+<td style="text-align:right;">
+23.385
+</td>
+<td style="text-align:right;">
+8.216
+</td>
+<td style="text-align:right;">
+17.077
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AD Russell
+</td>
+<td style="text-align:right;">
+23.391
+</td>
+<td style="text-align:right;">
+7.970
+</td>
+<td style="text-align:right;">
+17.609
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SCG MacGill
+</td>
+<td style="text-align:right;">
+23.714
+</td>
+<td style="text-align:right;">
+6.640
+</td>
+<td style="text-align:right;">
+21.429
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JM Muirhead
+</td>
+<td style="text-align:right;">
+23.750
+</td>
+<td style="text-align:right;">
+7.917
+</td>
+<td style="text-align:right;">
+18.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DP Nannes
+</td>
+<td style="text-align:right;">
+23.759
+</td>
+<td style="text-align:right;">
+7.240
+</td>
+<td style="text-align:right;">
+19.690
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+S Badree
+</td>
+<td style="text-align:right;">
+23.857
+</td>
+<td style="text-align:right;">
+6.423
+</td>
+<td style="text-align:right;">
+22.286
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DJ Pattinson
+</td>
+<td style="text-align:right;">
+23.889
+</td>
+<td style="text-align:right;">
+7.679
+</td>
+<td style="text-align:right;">
+18.667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Shoaib Malik
+</td>
+<td style="text-align:right;">
+24.000
+</td>
+<td style="text-align:right;">
+7.543
+</td>
+<td style="text-align:right;">
+19.091
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BE Young
+</td>
+<td style="text-align:right;">
+24.000
+</td>
+<td style="text-align:right;">
+6.667
+</td>
+<td style="text-align:right;">
+21.600
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GB Hogg
+</td>
+<td style="text-align:right;">
+24.033
+</td>
+<td style="text-align:right;">
+6.633
+</td>
+<td style="text-align:right;">
+21.738
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BW Hilfenhaus
+</td>
+<td style="text-align:right;">
+24.075
+</td>
+<td style="text-align:right;">
+7.992
+</td>
+<td style="text-align:right;">
+18.075
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JL Pattinson
+</td>
+<td style="text-align:right;">
+24.095
+</td>
+<td style="text-align:right;">
+8.826
+</td>
+<td style="text-align:right;">
+16.381
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SPD Smith
+</td>
+<td style="text-align:right;">
+24.167
+</td>
+<td style="text-align:right;">
+8.056
+</td>
+<td style="text-align:right;">
+18.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mohammad Nabi
+</td>
+<td style="text-align:right;">
+24.300
+</td>
+<td style="text-align:right;">
+6.597
+</td>
+<td style="text-align:right;">
+22.100
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MP Stoinis
+</td>
+<td style="text-align:right;">
+24.333
+</td>
+<td style="text-align:right;">
+8.661
+</td>
+<td style="text-align:right;">
+16.857
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BJ Dwarshuis
+</td>
+<td style="text-align:right;">
+24.457
+</td>
+<td style="text-align:right;">
+7.902
+</td>
+<td style="text-align:right;">
+18.571
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CJ McKay
+</td>
+<td style="text-align:right;">
+24.500
+</td>
+<td style="text-align:right;">
+8.196
+</td>
+<td style="text-align:right;">
+17.935
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WD Sheridan
+</td>
+<td style="text-align:right;">
+24.545
+</td>
+<td style="text-align:right;">
+8.438
+</td>
+<td style="text-align:right;">
+17.455
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SM Boland
+</td>
+<td style="text-align:right;">
+24.588
+</td>
+<td style="text-align:right;">
+8.459
+</td>
+<td style="text-align:right;">
+17.441
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DJ Bravo
+</td>
+<td style="text-align:right;">
+24.725
+</td>
+<td style="text-align:right;">
+8.129
+</td>
+<td style="text-align:right;">
+18.250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LW Feldman
+</td>
+<td style="text-align:right;">
+24.800
+</td>
+<td style="text-align:right;">
+7.697
+</td>
+<td style="text-align:right;">
+19.333
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JA Richardson
+</td>
+<td style="text-align:right;">
+24.917
+</td>
+<td style="text-align:right;">
+8.081
+</td>
+<td style="text-align:right;">
+18.500
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CJ Boyce
+</td>
+<td style="text-align:right;">
+24.981
+</td>
+<td style="text-align:right;">
+7.959
+</td>
+<td style="text-align:right;">
+18.833
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RJ Harris
+</td>
+<td style="text-align:right;">
+25.167
+</td>
+<td style="text-align:right;">
+7.810
+</td>
+<td style="text-align:right;">
+19.333
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KW Richardson
+</td>
+<td style="text-align:right;">
+25.193
+</td>
+<td style="text-align:right;">
+7.970
+</td>
+<td style="text-align:right;">
+18.965
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RP Meredith
+</td>
+<td style="text-align:right;">
+25.286
+</td>
+<td style="text-align:right;">
+8.429
+</td>
+<td style="text-align:right;">
+18.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FH Edwards
+</td>
+<td style="text-align:right;">
+25.500
+</td>
+<td style="text-align:right;">
+7.650
+</td>
+<td style="text-align:right;">
+20.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MT Steketee
+</td>
+<td style="text-align:right;">
+25.923
+</td>
+<td style="text-align:right;">
+8.691
+</td>
+<td style="text-align:right;">
+17.897
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MG Neser
+</td>
+<td style="text-align:right;">
+26.000
+</td>
+<td style="text-align:right;">
+8.395
+</td>
+<td style="text-align:right;">
+18.583
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NJ Rimmington
+</td>
+<td style="text-align:right;">
+26.878
+</td>
+<td style="text-align:right;">
+8.044
+</td>
+<td style="text-align:right;">
+20.049
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DT Christian
+</td>
+<td style="text-align:right;">
+26.922
+</td>
+<td style="text-align:right;">
+8.372
+</td>
+<td style="text-align:right;">
+19.294
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JM Mennie
+</td>
+<td style="text-align:right;">
+27.200
+</td>
+<td style="text-align:right;">
+9.067
+</td>
+<td style="text-align:right;">
+18.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Fawad Ahmed
+</td>
+<td style="text-align:right;">
+27.316
+</td>
+<td style="text-align:right;">
+7.014
+</td>
+<td style="text-align:right;">
+23.368
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AC Thomas
+</td>
+<td style="text-align:right;">
+27.333
+</td>
+<td style="text-align:right;">
+7.116
+</td>
+<td style="text-align:right;">
+23.048
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Zampa
+</td>
+<td style="text-align:right;">
+27.385
+</td>
+<td style="text-align:right;">
+7.168
+</td>
+<td style="text-align:right;">
+22.923
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AW O’Brien
+</td>
+<td style="text-align:right;">
+27.455
+</td>
+<td style="text-align:right;">
+7.106
+</td>
+<td style="text-align:right;">
+23.182
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SP Narine
+</td>
+<td style="text-align:right;">
+27.571
+</td>
+<td style="text-align:right;">
+7.423
+</td>
+<td style="text-align:right;">
+22.286
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AJ Nair
+</td>
+<td style="text-align:right;">
+27.778
+</td>
+<td style="text-align:right;">
+7.353
+</td>
+<td style="text-align:right;">
+22.667
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SNJ O’Keefe
+</td>
+<td style="text-align:right;">
+28.267
+</td>
+<td style="text-align:right;">
+6.634
+</td>
+<td style="text-align:right;">
+25.567
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AC Agar
+</td>
+<td style="text-align:right;">
+28.370
+</td>
+<td style="text-align:right;">
+6.964
+</td>
+<td style="text-align:right;">
+24.444
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B Lee
+</td>
+<td style="text-align:right;">
+28.371
+</td>
+<td style="text-align:right;">
+7.076
+</td>
+<td style="text-align:right;">
+24.057
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+L Bowe
+</td>
+<td style="text-align:right;">
+28.500
+</td>
+<td style="text-align:right;">
+9.000
+</td>
+<td style="text-align:right;">
+19.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SR Watson
+</td>
+<td style="text-align:right;">
+28.684
+</td>
+<td style="text-align:right;">
+8.134
+</td>
+<td style="text-align:right;">
+21.158
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AD Mascarenhas
+</td>
+<td style="text-align:right;">
+28.714
+</td>
+<td style="text-align:right;">
+8.739
+</td>
+<td style="text-align:right;">
+19.714
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CJ Green
+</td>
+<td style="text-align:right;">
+28.840
+</td>
+<td style="text-align:right;">
+7.000
+</td>
+<td style="text-align:right;">
+24.720
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GS Sandhu
+</td>
+<td style="text-align:right;">
+28.969
+</td>
+<td style="text-align:right;">
+8.026
+</td>
+<td style="text-align:right;">
+21.656
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MJ Swepson
+</td>
+<td style="text-align:right;">
+29.087
+</td>
+<td style="text-align:right;">
+7.602
+</td>
+<td style="text-align:right;">
+22.957
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JJ Krejza
+</td>
+<td style="text-align:right;">
+29.455
+</td>
+<td style="text-align:right;">
+8.526
+</td>
+<td style="text-align:right;">
+20.727
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JR Hopes
+</td>
+<td style="text-align:right;">
+29.708
+</td>
+<td style="text-align:right;">
+7.118
+</td>
+<td style="text-align:right;">
+25.042
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+XJ Doherty
+</td>
+<td style="text-align:right;">
+29.900
+</td>
+<td style="text-align:right;">
+7.667
+</td>
+<td style="text-align:right;">
+23.400
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JD Wildermuth
+</td>
+<td style="text-align:right;">
+30.174
+</td>
+<td style="text-align:right;">
+8.378
+</td>
+<td style="text-align:right;">
+21.609
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SCJ Broad
+</td>
+<td style="text-align:right;">
+30.375
+</td>
+<td style="text-align:right;">
+8.237
+</td>
+<td style="text-align:right;">
+22.125
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JK Lalor
+</td>
+<td style="text-align:right;">
+30.400
+</td>
+<td style="text-align:right;">
+8.114
+</td>
+<td style="text-align:right;">
+22.480
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JH Kallis
+</td>
+<td style="text-align:right;">
+30.500
+</td>
+<td style="text-align:right;">
+6.932
+</td>
+<td style="text-align:right;">
+26.400
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TLW Cooper
+</td>
+<td style="text-align:right;">
+30.500
+</td>
+<td style="text-align:right;">
+7.394
+</td>
+<td style="text-align:right;">
+24.750
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SK Warne
+</td>
+<td style="text-align:right;">
+31.000
+</td>
+<td style="text-align:right;">
+7.255
+</td>
+<td style="text-align:right;">
+25.636
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JM Bird
+</td>
+<td style="text-align:right;">
+31.152
+</td>
+<td style="text-align:right;">
+7.643
+</td>
+<td style="text-align:right;">
+24.455
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MA Beer
+</td>
+<td style="text-align:right;">
+31.585
+</td>
+<td style="text-align:right;">
+6.658
+</td>
+<td style="text-align:right;">
+28.463
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DJM Short
+</td>
+<td style="text-align:right;">
+32.000
+</td>
+<td style="text-align:right;">
+8.388
+</td>
+<td style="text-align:right;">
+22.889
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LA Doran
+</td>
+<td style="text-align:right;">
+32.000
+</td>
+<td style="text-align:right;">
+7.111
+</td>
+<td style="text-align:right;">
+27.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BCJ Cutting
+</td>
+<td style="text-align:right;">
+32.190
+</td>
+<td style="text-align:right;">
+8.713
+</td>
+<td style="text-align:right;">
+22.167
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PJ Cummins
+</td>
+<td style="text-align:right;">
+32.200
+</td>
+<td style="text-align:right;">
+8.835
+</td>
+<td style="text-align:right;">
+21.867
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B Doggett
+</td>
+<td style="text-align:right;">
+32.571
+</td>
+<td style="text-align:right;">
+9.500
+</td>
+<td style="text-align:right;">
+20.571
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MJ McClenaghan
+</td>
+<td style="text-align:right;">
+32.818
+</td>
+<td style="text-align:right;">
+9.178
+</td>
+<td style="text-align:right;">
+21.455
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CP Tremain
+</td>
+<td style="text-align:right;">
+32.852
+</td>
+<td style="text-align:right;">
+8.188
+</td>
+<td style="text-align:right;">
+24.074
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Usman Shinwari
+</td>
+<td style="text-align:right;">
+33.000
+</td>
+<td style="text-align:right;">
+6.600
+</td>
+<td style="text-align:right;">
+30.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+EP Gulbis
+</td>
+<td style="text-align:right;">
+34.056
+</td>
+<td style="text-align:right;">
+8.475
+</td>
+<td style="text-align:right;">
+24.111
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GJ Maxwell
+</td>
+<td style="text-align:right;">
+34.214
+</td>
+<td style="text-align:right;">
+7.603
+</td>
+<td style="text-align:right;">
+27.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SL Rainbird
+</td>
+<td style="text-align:right;">
+34.333
+</td>
+<td style="text-align:right;">
+8.787
+</td>
+<td style="text-align:right;">
+23.444
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DJ Worrall
+</td>
+<td style="text-align:right;">
+34.667
+</td>
+<td style="text-align:right;">
+8.946
+</td>
+<td style="text-align:right;">
+23.250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CH Gayle
+</td>
+<td style="text-align:right;">
+35.667
+</td>
+<td style="text-align:right;">
+7.379
+</td>
+<td style="text-align:right;">
+29.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Yasir Shah
+</td>
+<td style="text-align:right;">
+36.000
+</td>
+<td style="text-align:right;">
+6.429
+</td>
+<td style="text-align:right;">
+33.600
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DE Bollinger
+</td>
+<td style="text-align:right;">
+36.200
+</td>
+<td style="text-align:right;">
+8.354
+</td>
+<td style="text-align:right;">
+26.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SJ Coyte
+</td>
+<td style="text-align:right;">
+37.875
+</td>
+<td style="text-align:right;">
+7.019
+</td>
+<td style="text-align:right;">
+32.375
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MC Henriques
+</td>
+<td style="text-align:right;">
+38.235
+</td>
+<td style="text-align:right;">
+8.193
+</td>
+<td style="text-align:right;">
+28.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LN O’Connor
+</td>
+<td style="text-align:right;">
+38.667
+</td>
+<td style="text-align:right;">
+7.250
+</td>
+<td style="text-align:right;">
+32.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KAJ Roach
+</td>
+<td style="text-align:right;">
+38.800
+</td>
+<td style="text-align:right;">
+6.888
+</td>
+<td style="text-align:right;">
+33.800
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RM Duffield
+</td>
+<td style="text-align:right;">
+39.400
+</td>
+<td style="text-align:right;">
+9.381
+</td>
+<td style="text-align:right;">
+25.200
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JM Holland
+</td>
+<td style="text-align:right;">
+39.444
+</td>
+<td style="text-align:right;">
+8.452
+</td>
+<td style="text-align:right;">
+28.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AJ Finch
+</td>
+<td style="text-align:right;">
+39.600
+</td>
+<td style="text-align:right;">
+8.735
+</td>
+<td style="text-align:right;">
+27.200
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LJ Wright
+</td>
+<td style="text-align:right;">
+40.500
+</td>
+<td style="text-align:right;">
+8.890
+</td>
+<td style="text-align:right;">
+27.333
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+J Botha
+</td>
+<td style="text-align:right;">
+41.121
+</td>
+<td style="text-align:right;">
+7.136
+</td>
+<td style="text-align:right;">
+34.576
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DL Vettori
+</td>
+<td style="text-align:right;">
+42.400
+</td>
+<td style="text-align:right;">
+7.310
+</td>
+<td style="text-align:right;">
+34.800
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CA Rose
+</td>
+<td style="text-align:right;">
+42.889
+</td>
+<td style="text-align:right;">
+8.042
+</td>
+<td style="text-align:right;">
+32.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JS Paris
+</td>
+<td style="text-align:right;">
+44.000
+</td>
+<td style="text-align:right;">
+8.551
+</td>
+<td style="text-align:right;">
+30.875
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AL Fekete
+</td>
+<td style="text-align:right;">
+44.625
+</td>
+<td style="text-align:right;">
+10.249
+</td>
+<td style="text-align:right;">
+26.125
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MG Hogan
+</td>
+<td style="text-align:right;">
+45.200
+</td>
+<td style="text-align:right;">
+8.071
+</td>
+<td style="text-align:right;">
+33.600
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MR Marsh
+</td>
+<td style="text-align:right;">
+48.200
+</td>
+<td style="text-align:right;">
+9.269
+</td>
+<td style="text-align:right;">
+31.200
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NM Hauritz
+</td>
+<td style="text-align:right;">
+48.583
+</td>
+<td style="text-align:right;">
+8.637
+</td>
+<td style="text-align:right;">
+33.750
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TS Mills
+</td>
+<td style="text-align:right;">
+48.778
+</td>
+<td style="text-align:right;">
+9.146
+</td>
+<td style="text-align:right;">
+32.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MJ Johnston
+</td>
+<td style="text-align:right;">
+50.000
+</td>
+<td style="text-align:right;">
+8.333
+</td>
+<td style="text-align:right;">
+36.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WER Somerville
+</td>
+<td style="text-align:right;">
+52.667
+</td>
+<td style="text-align:right;">
+7.182
+</td>
+<td style="text-align:right;">
+44.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GD Putland
+</td>
+<td style="text-align:right;">
+62.000
+</td>
+<td style="text-align:right;">
+8.455
+</td>
+<td style="text-align:right;">
+44.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DJG Sammy
+</td>
+<td style="text-align:right;">
+73.333
+</td>
+<td style="text-align:right;">
+9.167
+</td>
+<td style="text-align:right;">
+48.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TL Lawford
+</td>
+<td style="text-align:right;">
+76.000
+</td>
+<td style="text-align:right;">
+8.941
+</td>
+<td style="text-align:right;">
+51.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JS Floros
+</td>
+<td style="text-align:right;">
+93.333
+</td>
+<td style="text-align:right;">
+8.705
+</td>
+<td style="text-align:right;">
+64.333
+</td>
+</tr>
+</tbody>
+</table>
 </div>
+<p>We see Ish Sodhi, in only his 3 innings, rack up a healthy average and strike rate at a very respectable economy rate, while Lasith Malinga dominated in time over here with an average of 15.00 at an economy of only 5.40, one of only three bowlers with an economy rate below six (his national team mate Muralitharan with 5.70, and young gun Afghani Rashid Khan). So from there, there could be a trade-off between average, strike rate, and economy rate, so who has the Pareto-Optimal combination of these metrics?</p>
+</div>
+<div id="pareto-optimal-career-bowling-figures" class="section level2">
+<h2>Pareto-Optimal Career Bowling Figures</h2>
+<pre class="r"><code>paretoCareerBowl &lt;- psel(statBowl %&gt;% 
+                         select(Bowling,Average,Economy,StrikeRate), 
+                         low(Average)*low(Economy)*low(StrikeRate))
+paretoCareerBowl %&gt;%
+  kable() %&gt;%
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;), full_width = F, position = &quot;center&quot;)</code></pre>
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Bowling
+</th>
+<th style="text-align:right;">
+Average
+</th>
+<th style="text-align:right;">
+Economy
+</th>
+<th style="text-align:right;">
+StrikeRate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+TK Curran
+</td>
+<td style="text-align:right;">
+12.556
+</td>
+<td style="text-align:right;">
+6.647
+</td>
+<td style="text-align:right;">
+11.333
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rashid Khan
+</td>
+<td style="text-align:right;">
+13.154
+</td>
+<td style="text-align:right;">
+5.344
+</td>
+<td style="text-align:right;">
+14.769
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AU Rashid
+</td>
+<td style="text-align:right;">
+14.125
+</td>
+<td style="text-align:right;">
+6.519
+</td>
+<td style="text-align:right;">
+13.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Shakib Al Hasan
+</td>
+<td style="text-align:right;">
+14.222
+</td>
+<td style="text-align:right;">
+6.095
+</td>
+<td style="text-align:right;">
+14.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MA Starc
+</td>
+<td style="text-align:right;">
+14.850
+</td>
+<td style="text-align:right;">
+7.920
+</td>
+<td style="text-align:right;">
+11.250
+</td>
+</tr>
+</tbody>
+</table>
+<p>We see Sodhi who tops the average and strike rate, Malinga who tops the economy, and Khan who has the third best average and second best economy. However, as Ish has only bowled in three innings, if we set a minimum 10 innings, we start to see only one different bowler enter the fray:</p>
+<pre class="r"><code>paretoCareerBowl &lt;- psel(statBowl %&gt;% filter(Innings &gt; 9) %&gt;% 
+                         select(Bowling,Average,Economy,StrikeRate), 
+                         low(Average)*low(Economy)*low(StrikeRate))
+paretoCareerBowl %&gt;%
+  kable() %&gt;%
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;), full_width = F, position = &quot;center&quot;)</code></pre>
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Bowling
+</th>
+<th style="text-align:right;">
+Average
+</th>
+<th style="text-align:right;">
+Economy
+</th>
+<th style="text-align:right;">
+StrikeRate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rashid Khan
+</td>
+<td style="text-align:right;">
+13.154
+</td>
+<td style="text-align:right;">
+5.344
+</td>
+<td style="text-align:right;">
+14.769
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MA Starc
+</td>
+<td style="text-align:right;">
+14.850
+</td>
+<td style="text-align:right;">
+7.920
+</td>
+<td style="text-align:right;">
+11.250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Yasir Arafat
+</td>
+<td style="text-align:right;">
+17.370
+</td>
+<td style="text-align:right;">
+7.626
+</td>
+<td style="text-align:right;">
+13.667
+</td>
+</tr>
+</tbody>
+</table>
+<p>Three players have Pareto-Optimal bowling statistics, with Jake Reed joining the list with the superior strike rate.</p>
+<p>So then now we have figured out the Pareto-Optimal BBL bowlers, what is the most common dismissals in Big Bash?</p>
+</div>
+<div id="most-common-dismissals-in-big-bash" class="section level2">
+<h2>Most Common Dismissals in Big Bash</h2>
+<p>To do so, we need to use the batting data and see the dismissal method, rather than using the bowling data that the previous figures have used. However, there is a problem when you do this, see if you can spot it: (Hint: Have a think through the bowlers’ names)</p>
+<pre class="r"><code>uniqueDismissal &lt;- as.data.frame(table(dismissed$Dismissal))
+uniqueDismissal &lt;- uniqueDismissal %&gt;% arrange(desc(Freq))
+colnames(uniqueDismissal) &lt;- c(&quot;Dismissal&quot;,&quot;Frequency&quot;)
+ggplot(uniqueDismissal %&gt;% filter(Frequency &gt;= 10), 
+       aes(x = reorder(Dismissal,Frequency), y = Frequency, fill = Dismissal)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  coord_flip() +
+  guides(fill = FALSE) +
+  labs(title = &quot;Most Common BBL Dismissals&quot;, 
+       x = &quot;Mode of Dismissal&quot;, y = &quot;Frequency&quot;) +
+  theme_ipsum_rc()</code></pre>
+<p><img src="/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>By using the batting data, we only have the last name, and don’t have the unique name identifier usually used in the bowling data sets. As a result, it has combined Kane Richardson and Jhye Richardson’s dismissals into the same row. But after looking into the data we see that Kane contributed 15, which still places him equal 2nd on the list, while Jhye’s 5 don’t rank a mention.</p>
+<p>But what about the dismissals that aren’t bowled, what are those most common dismissals?</p>
+<pre class="r"><code>notBowled &lt;- dismissed %&gt;% filter(Mode != &#39;Bowled&#39;)
+uniqueDismissal &lt;- as.data.frame(table(notBowled$Dismissal))
+uniqueDismissal &lt;- uniqueDismissal %&gt;% arrange(desc(Freq))
+colnames(uniqueDismissal) &lt;- c(&quot;Dismissal&quot;,&quot;Frequency&quot;)
+uniqueDismissal %&gt;%
+  filter(Frequency &gt; 5) %&gt;%
+  kable() %&gt;%
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;), position = &quot;center&quot;)</code></pre>
+<table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Dismissal
+</th>
+<th style="text-align:right;">
+Frequency
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+c Head b Laughlin
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lbw b Hogg
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lbw b Muralitharan
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c â€ Ludeman b Tait
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c Abbott b Lyon
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c Agar b Tye
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c Botha b Abbott
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c Maxwell b Hastings
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c â€ Carey b Stanlake
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c â€ Carters b Bollinger
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c â€ Carters b Nannes
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+c â€ Whiteman b Behrendorff
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lbw b Tait
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+run out (â€ Hartley)
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+run out (Botha)
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+</tbody>
+</table>
+<p>Surprisingly, the dismissal ‘caught Travis Head, bowled Ben Laughlin’ is the highest alongside two spinners with eight dismissals. Johan Botha makes it on the list twice, with seven catches on Sean Abbott’s bowling and six run outs.</p>
+<p>Although how about on an individual innings level, what is the most common bowling figured in Big Bash?</p>
+</div>
+<div id="what-are-the-most-common-bowling-figures" class="section level2">
+<h2>What are the most common bowling figures?</h2>
+<p>To do so, a plot is built, with the colour illustrating the density of the most common bowling figures.</p>
+<pre class="r"><code>ggplot(bowl, aes(R,W)) +
+  geom_bin2d(binwidth = c(0.9999,0.9999)) +
+  theme_ipsum_rc() +
+  scale_fill_gradient(limits=c(0,100), 
+                       breaks=seq(0, 100, by=20),
+                       low = &quot;lightblue&quot;,
+                       high = &quot;darkblue&quot;) +
+  labs(x = &quot;Runs&quot;, y = &quot;Wickets&quot;,
+       title = &quot;BBL Wickets by Runs&quot;)</code></pre>
+<p><img src="/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>We see that the figures form a surprisngly normal distribution within each row of wickets. The most common figures lie between 0/5 to 0/38 and up to 2/20. However, two stark outliers are in the top left corner, one of whick is the best bowling figures in Big Bash - 6/7 by Lasith Malinga.</p>
+<p>However, as previously mentioned, economy rate can also contribute to a bowler’s performance, so is there any other Pareto-Optimal bowling innings?</p>
+</div>
+<div id="what-are-the-best-bowling-figures-in-big-bash" class="section level2">
+<h2>What are the best bowling figures in Big Bash?</h2>
+<pre class="r"><code>bowlPareto &lt;- psel(bowl, high(W)*low(Econ)) %&gt;% 
+  arrange(desc(W)) %&gt;% 
+  select(Bowling, O, W, R, Econ)
+bowlPareto %&gt;%
+  kable() %&gt;%
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;), full_width = F, position = &quot;center&quot;) %&gt;%
+  add_header_above(c(&quot;Pareto-Optimal BBL Bowling Honour Board&quot;=5))</code></pre>
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="5">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px;">
+Pareto-Optimal BBL Bowling Honour Board
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:left;">
+Bowling
+</th>
+<th style="text-align:right;">
+O
+</th>
+<th style="text-align:right;">
+W
+</th>
+<th style="text-align:right;">
+R
+</th>
+<th style="text-align:right;">
+Econ
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+SL Malinga
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1.75
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MG Johnson
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+</tr>
+</tbody>
+</table>
+<p>One other bowler joins the picture, the man Mitchell Johnson with 3/3 off 4 overs at an economy of only 0.75.</p>
+<p>So that wraps up Part 2 of this series looking at the Big Bash. Keen to get feedback on what you liked and what you’d like to see more of, you can contact me by either commenting on this post or by tweeting to me <span class="citation">@pointninefour</span>.</p>
 </div>

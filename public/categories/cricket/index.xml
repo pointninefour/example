@@ -6,10 +6,21 @@
     <description>Recent content in Cricket on Point Nine Four</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 12 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 13 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/cricket/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>BBL ScatterBowl</title>
+      <link>/posts/cricket/scatterbowl/</link>
+      <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/cricket/scatterbowl/</guid>
+      <description>Introducing ScatterBat!
+ScatterBowl displays every combination of wickets taken and runs conceded in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been 229 entries.
+ScatterBowl &amp;lt;- bowl %&amp;gt;% distinct(W,R, .keep_all = TRUE) %&amp;gt;%select(Season, Match.No, Bowling, W, R) colnames(ScatterBowl)[colnames(ScatterBowl) == &amp;#39;Match.No&amp;#39;] &amp;lt;- &amp;#39;Match&amp;#39;ggplot(ScatterBowl, aes(R,W)) +geom_bin2d(binwidth = c(0.</description>
+    </item>
     
     <item>
       <title>An Analytical Guide to BBL - Bowling</title>
@@ -17,9 +28,8 @@
       <pubDate>Sat, 12 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/posts/cricket/an-analytical-guide-to-bbl-bowling/</guid>
-      <description>Insert Lead paragraph here.
-A augue nunc lacus auctor efficitur tempor placerat, dictum volutpat mi vitae viverra porta non sem, himenaeos senectus vivamus potenti cubilia sollicitudin. Curae cursus inceptos tincidunt magna mi nibh ad enim etiam, molestie eu quis primis hendrerit taciti phasellus. Feugiat ultricies dictumst iaculis potenti odio laoreet urna at, ultrices curae leo accumsan proin sem lobortis.
-Heading 2Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum vestibulum porta mauris lorem, ullamcorper class fermentum sem hendrerit ante augue penatibus scelerisque felis leo proin,ad nascetur venenatis sodales dignissim viverra suspendisse turpis convallis condimentum sapien.</description>
+      <description>As a follow-on from my previous blog post, the next article in this series of Big Bash posts is focusing on the bowlers in BBL. In the similar way as the past article, this is written in RMarkdown so I’d love feedback on how it is and what other content people would like to see!
+Who is the highest wicket-taker in BBL?First, we will look at the top wicket-takers across the past seven seasons.</description>
     </item>
     
     <item>

@@ -6,6 +6,7 @@ Categories:
   - cricket
 Tags:
   - rstats
+  - scatterplot
 slug: scatterbat
 menu: main
 ---
@@ -13,7 +14,6 @@ menu: main
 library(dplyr)
 library(ggplot2)
 library(hrbrthemes)
-library(kableExtra)
 library(stringr)
 library(DT)
 bats <- read.csv('C:/Users/Newans/pointninefour/static/bblbat.csv')
@@ -56,5 +56,5 @@ We can also map out how many combinations each player has contributed:
 ```{r,echo=FALSE}
 datatable(ScatterBats %>% 
   group_by(Batter) %>%
-  summarise(n()), colnames = c("Season","No. of Combinations"), rownames = FALSE, caption = 'Table 3: Number of Combinations by Batter.',options = list(dom = 'ft'))
+  summarise(n()), colnames = c("Batsman","No. of Combinations"), rownames = FALSE, caption = 'Table 3: Number of Combinations by Batsman',options = list(dom = 'ft'))
 ```
