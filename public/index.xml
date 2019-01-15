@@ -17,9 +17,9 @@
       <pubDate>Sun, 13 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/posts/cricket/scatterbowl/</guid>
-      <description>Introducing ScatterBat!
-ScatterBowl displays every combination of wickets taken and runs conceded in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been 229 entries.
-ScatterBowl &amp;lt;- bowl %&amp;gt;% distinct(W,R, .keep_all = TRUE) %&amp;gt;%select(Season, Match.No, Bowling, W, R) colnames(ScatterBowl)[colnames(ScatterBowl) == &amp;#39;Match.No&amp;#39;] &amp;lt;- &amp;#39;Match&amp;#39;ggplot(ScatterBowl, aes(R,W)) +geom_bin2d(binwidth = c(0.</description>
+      <description>Introducing ScatterBowl!
+ScatterBowl displays every combination of wickets taken and runs conceded in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been 231 entries.
+This next table allows you to pin-point every spell that is displayed on ScatterBowl. Keep in mind, this only displays the first time that each combination has occurred.</description>
     </item>
     
     <item>
@@ -39,7 +39,7 @@ Who is the highest wicket-taker in BBL?First, we will look at the top wicket-ta
       
       <guid>/posts/cricket/scatterbat/</guid>
       <description>Introducing ScatterBat!
-ScatterBat displays every combination of runs scored and balls faced in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been 1,137 entries. This next table allows you to pin-point every innings that is displayed on ScatterBat. Keep in mind, this only displays the first time that each combination has occurred.</description>
+ScatterBat displays every combination of runs scored and balls faced in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been 1,164 entries. This next table allows you to pin-point every innings that is displayed on ScatterBat. Keep in mind, this only displays the first time that each combination has occurred.</description>
     </item>
     
     <item>
@@ -58,7 +58,7 @@ This is also my first attempt at writing a blog post within RMarkdown, so be wit
       <pubDate>Sun, 06 Jan 2019 21:48:51 -0700</pubDate>
       
       <guid>/about/</guid>
-      <description>“Point Nine Four” is a reference to possibly the most well-known statistic in Australians sports. The question appears anywhere from pub trivia of a Tuesday night, all the way to a question on the 23rd season of Hot Seat.
+      <description>“Point Nine Four” is a reference to possibly the most well-known statistic in Australian sport. The question appears anywhere from pub trivia of a Tuesday night, all the way to a question on the 23rd season of Hot Seat.
 Q: “What was Sir Donald Bradman’s career batting average?”
 A: “99.94”
 Point Nine Four aims to show unusual or complex statistics regarding Australian sports in a meaningful and digestible format. Point Nine Four is designed to be read by lovers of sport, who still get a kick out of seeing some cool maths applied to enhance their love of sport.</description>

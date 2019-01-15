@@ -3,7 +3,7 @@ title: "About"
 date: "2019-01-06T21:48:51-07:00"
 ---
 
-“Point Nine Four” is a reference to possibly the most well-known statistic in Australians sports. The question appears anywhere from pub trivia of a Tuesday night, all the way to a question on the 23rd season of Hot Seat.
+“Point Nine Four” is a reference to possibly the most well-known statistic in Australian sport. The question appears anywhere from pub trivia of a Tuesday night, all the way to a question on the 23rd season of Hot Seat.
 
 <strong>Q:</strong> “What was Sir Donald Bradman’s career batting average?”
 

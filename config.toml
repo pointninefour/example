@@ -17,9 +17,9 @@ theme = "hyde-hyde"
 ## Site Settings
 [params]
     author = "Tim Newans"
-    title = "Point Nine Four"
+    # title = "Point Nine Four"
     # description = "..."
-    # authorimage = "/img/hugo.png"
+    # authorimage = "static/logo.png"
     dateformat = "Jan 2, 2006"
     ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
