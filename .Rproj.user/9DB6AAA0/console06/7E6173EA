@@ -59,4 +59,20 @@ $[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git c[0K[?25hh[0Ke
 M       .Rproj.user/9DB6AAA0/console06/7E6173EA[0K
 [0K[?25h[?25l
 [0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
+$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git p[0K[?25hu[0Ks[0Kh[0K[12G[?25l$ git push o[0K[?25hr[0Ki[0Kg[0Ki[0Kn[0K[19G[?25l$ git push origin t[0K[?25hr[0Ki[0Ka[0Kl[0K2[0K[?25l
+[0K[?25hEnumerating objects: 172, done.[0K[?25l
+Counting objects:  18% (31/172)[0K[1G[?25h[?25lCounting objects:  33% (57/172)[0K[1G[?25h[?25lCounting objects:  68% (117/172)[0K[1G[?25hCounting objects: 100% (172/172), done.[0K[?25l
+Delta compression using up to 8 threads.[0K
+Compressing objects:  11% (10/88)[0K[1G[?25h[?25lCompressing objects:  96% (85/88)[0K[1G[?25hCompressing objects: 100% (88/88), done.[0K[?25l
+Writing objects:  49% (55/111)[0K[23G[?25h[?25lWriting objects: 100% (111/111), 159.95 KiB | 3.63 MiB/s, done.[0K
+Total 111 (delta 48), reused 0 (delta 0)[0K
+[0K[?25hremote: Resolving deltas: 100% (48/48), completed with 30 local objects.[0K[?25l
+remote:[0K
+remote: To create a merge request for trial2, visit:[0K
+remote:   https://gitlab.com/pointninefour/website/merge_requests/new?merge_request%5Bsource_branch%5D=trial2[0K
+remote:[0K
+To https://gitlab.com/pointninefour/website.git[0K
+ * [new branch]      trial2 -> trial2[0K
+[0K[?25h[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
 $[0K[3G[?25h
