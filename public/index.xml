@@ -23,16 +23,6 @@ This next table allows you to pin-point every spell that is displayed on Scatter
     </item>
     
     <item>
-      <title>An Analytical Guide to BBL - Bowling</title>
-      <link>/posts/cricket/an-analytical-guide-to-bbl-bowling/</link>
-      <pubDate>Sat, 12 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/cricket/an-analytical-guide-to-bbl-bowling/</guid>
-      <description>As a follow-on from my previous blog post, the next article in this series of Big Bash posts is focusing on the bowlers in BBL. In the similar way as the past article, this is written in RMarkdown so I’d love feedback on how it is and what other content people would like to see!
-Who is the highest wicket-taker in BBL?First, we will look at the top wicket-takers across the past seven seasons.</description>
-    </item>
-    
-    <item>
       <title>BBL ScatterBat</title>
       <link>/posts/cricket/scatterbat/</link>
       <pubDate>Sat, 12 Jan 2019 00:00:00 +0000</pubDate>
@@ -40,16 +30,6 @@ Who is the highest wicket-taker in BBL?First, we will look at the top wicket-ta
       <guid>/posts/cricket/scatterbat/</guid>
       <description>Introducing ScatterBat!
 ScatterBat displays every combination of runs scored and balls faced in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been 1,164 entries. This next table allows you to pin-point every innings that is displayed on ScatterBat. Keep in mind, this only displays the first time that each combination has occurred.</description>
-    </item>
-    
-    <item>
-      <title>BBL Batting Analytics</title>
-      <link>/posts/cricket/bbl-batting-analytics/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/cricket/bbl-batting-analytics/</guid>
-      <description>As BBL|08 is upon us, I decided to take a look over the past seven seasons and understand the Big Bash from a statistical standpoint. To be able to have such a large dataset has been a lot of fun and I’d love suggestions for further comparisons to be made. This first article will focus on batsmen, with future articles to follow on bowlers and teams.
-This is also my first attempt at writing a blog post within RMarkdown, so be with me.</description>
     </item>
     
     <item>
@@ -62,6 +42,26 @@ This is also my first attempt at writing a blog post within RMarkdown, so be wit
 Q: “What was Sir Donald Bradman’s career batting average?”
 A: “99.94”
 Point Nine Four aims to show unusual or complex statistics regarding Australian sports in a meaningful and digestible format. Point Nine Four is designed to be read by lovers of sport, who still get a kick out of seeing some cool maths applied to enhance their love of sport.</description>
+    </item>
+    
+    <item>
+      <title>An Analytical Guide to BBL - Bowling</title>
+      <link>/posts/cricket/an-analytical-guide-to-bbl-bowling/</link>
+      <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/cricket/an-analytical-guide-to-bbl-bowling/</guid>
+      <description>As a follow-on from my previous blog post, the next article in this series of Big Bash posts is focusing on the bowlers in BBL. In the similar way as the past article, this is written in RMarkdown so I’d love feedback on how it is and what other content people would like to see!
+Who is the highest wicket-taker in BBL?First, we will look at the top wicket-takers across the past seven seasons.</description>
+    </item>
+    
+    <item>
+      <title>An Analytical Guide to BBL - Batting</title>
+      <link>/posts/cricket/bbl-batting-analytics/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/cricket/bbl-batting-analytics/</guid>
+      <description>As BBL|08 is upon us, I decided to take a look over the past seven seasons and understand the Big Bash from a statistical standpoint. To be able to have such a large dataset has been a lot of fun and I’d love suggestions for further comparisons to be made. This first article will focus on batsmen, with future articles to follow on bowlers and teams.
+This is also my first attempt at writing a blog post within RMarkdown, so be with me.</description>
     </item>
     
   </channel>

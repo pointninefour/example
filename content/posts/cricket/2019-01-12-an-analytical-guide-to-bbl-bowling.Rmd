@@ -1,7 +1,7 @@
 ---
 title: An Analytical Guide to BBL - Bowling
 author: Tim Newans
-date: '2019-01-12'
+date: '2018-12-20'
 slug: an-analytical-guide-to-bbl-bowling
 categories:
   - cricket
@@ -18,14 +18,17 @@ library(hrbrthemes)
 library(extrafont)
 library(rPref)
 library(knitr)
-library(kableExtra)
+library(DT)
 library(lme4)
+library(kableExtra)
 library(effects)
 library(stringi)
 library(stringr)
 
 bats <- read.csv('C:/Users/Newans/pointninefour/static/bblbat.csv')
+bats <- bats %>% filter(Season != "BBL08")
 bowl <- read.csv('C:/Users/Newans/pointninefour/static/bblbowl.csv')
+bowl <- bowl %>% filter(Season != "BBL08")
 bats$Bowler <- str_sub(str_extract(bats$Dismissal, " b (.*)"), start=3)
 bats$Bowler <- na_if(bats$Bowler,grepl(')',bats$Bowler))
 bats$Fielder <- coalesce(str_sub(str_extract(bats$Dismissal, "c .+? b"), start = 3, end = -3),
@@ -74,7 +77,7 @@ ggplot(sumBowl %>% head(10),
   theme(axis.text.x = element_text(angle = 30, vjust = 0.7))
 ```
 
-Ben Laughlin dominates the list with 92 wickets, with the likes of Tye and Abbot gaining podium positions. The 'Wild Thing' rounds out the top 10. However, wickets are not the only things that matter, the amount of runs conceded while taking wickets is also important, therefore things such as average, strike rates, and economy are also important to consider.
+Ben Laughlin dominates the list with 85 wickets, with the likes of Abbott and Hoggy gaining podium positions. The 'Wild Thing' rounds out the top 10. However, wickets are not the only things that matter, the amount of runs conceded while taking wickets is also important, therefore things such as average, strike rates, and economy are also important to consider.
 
 ```{r}
 statBowl <- sumBowl
@@ -82,14 +85,10 @@ statBowl$Average <- statBowl$Runs/statBowl$Wickets
 statBowl$Economy <- statBowl$Runs/statBowl$Balls*6
 statBowl$StrikeRate <- statBowl$Balls/statBowl$Wickets
 statBowl <- statBowl %>% 
-  filter(Balls > 100) %>% 
   arrange(Average) %>%
     mutate_at(vars(Average, Economy, StrikeRate), funs(round(., 3)))
-statBowl %>%
-  select(Bowling,Average,Economy,StrikeRate) %>%
-  kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F, position = "center") %>%
-  scroll_box(width = "100%", height = "350px") 
+datatable(statBowl %>%
+  select(Bowling,Average,Economy,StrikeRate))
 ```
 
 We see Ish Sodhi, in only his 3 innings, rack up a healthy average and strike rate at a very respectable economy rate, while Lasith Malinga dominated in time over here with an average of 15.00 at an economy of only 5.40, one of only three bowlers with an economy rate below six (his national team mate Muralitharan with 5.70, and young gun Afghani Rashid Khan).
@@ -100,23 +99,21 @@ So from there, there could be a trade-off between average, strike rate, and econ
 paretoCareerBowl <- psel(statBowl %>% 
                          select(Bowling,Average,Economy,StrikeRate), 
                          low(Average)*low(Economy)*low(StrikeRate))
-paretoCareerBowl %>%
-  kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F, position = "center")
+datatable(paretoCareerBowl, options = list(dom = 't'))
 
 ```
 
-We see Sodhi who tops the average and strike rate, Malinga who tops the economy, and Khan who has the third best average and second best economy. However, as Ish has only bowled in three innings, if we set a minimum 10 innings, we start to see only one different bowler enter the fray:
+We see Sodhi who tops the average and strike rate, Malinga who tops the economy, and Khan who has the third best average and third best economy. However, as Ish has only bowled in three innings, if we set a minimum 10 innings, we start to see only one different bowler enter the fray:
 
 ``` {r}
-paretoCareerBowl <- psel(statBowl %>% filter(Innings > 9) %>% 
+paretoCareerBowl <- psel(statBowl %>% filter(Innings >= 10) %>% 
                          select(Bowling,Average,Economy,StrikeRate), 
                          low(Average)*low(Economy)*low(StrikeRate))
 paretoCareerBowl %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F, position = "center")
 ```
-Three players have Pareto-Optimal bowling statistics, with Jake Reed joining the list with the superior strike rate.
+Four players have Pareto-Optimal bowling statistics, Khan with a superior average, Starc with a superior strike rate, Malinga with a superior economy, and Arafat who has a lower strike rate than Khan and Malinga and a lower economy than Starc.
 
 So then now we have figured out the Pareto-Optimal BBL bowlers, what is the most common dismissals in Big Bash?
 
@@ -140,7 +137,7 @@ ggplot(uniqueDismissal %>% filter(Frequency >= 10),
   theme_ipsum_rc()
 ```
 
-By using the batting data, we only have the last name, and don't have the unique name identifier usually used in the bowling data sets. As a result, it has combined Kane Richardson and Jhye Richardson's dismissals into the same row. But after looking into the data we see that Kane contributed 15, which still places him equal 2nd on the list, while Jhye's 5 don't rank a mention.
+By using the batting data, we only have the last name, and don't have the unique name identifier usually used in the bowling data sets. As a result, it has combined Kane Richardson and Jhye Richardson's dismissals into the same row. But after looking into the data we see that Kane contributed 14, which still places him equal 2nd on the list, while Jhye's 5 don't rank a mention.
 
 But what about the dismissals that aren't bowled, what are those most common dismissals?
 
@@ -149,10 +146,7 @@ notBowled <- dismissed %>% filter(Mode != 'Bowled')
 uniqueDismissal <- as.data.frame(table(notBowled$Dismissal))
 uniqueDismissal <- uniqueDismissal %>% arrange(desc(Freq))
 colnames(uniqueDismissal) <- c("Dismissal","Frequency")
-uniqueDismissal %>%
-  filter(Frequency > 5) %>%
-  kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), position = "center")
+datatable(uniqueDismissal %>% filter (Frequency > 5),options = list(dom = 't'))
 ```
 
 Surprisingly, the dismissal 'caught Travis Head, bowled Ben Laughlin' is the highest alongside two spinners with eight dismissals. Johan Botha makes it on the list twice, with seven catches on Sean Abbott's bowling and six run outs.

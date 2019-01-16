@@ -1,7 +1,7 @@
 ---
-title: BBL Batting Analytics
+title: An Analytical Guide to BBL - Batting
 author: Tim Newans
-date: '2019-01-08'
+date: '2018-12-18'
 slug: bbl-batting-analytics
 categories:
   - cricket
@@ -19,7 +19,7 @@ lastmod: '2019-01-08T21:26:19+10:00'
 <p>So without further ado, let’s get to it!</p>
 <div id="what-does-a-typical-batting-innings-look-like" class="section level2">
 <h2>What does a typical batting innings look like?</h2>
-<p>While this question seems ironic when we are talking about the Big Bash, but before we break down innings by dismissals and strike rates, we first need to understand where the predominant amount of innings lie. There has been a total of 3,887 innings, with 877 of those batsmen remaining in at the crease at the close of play.</p>
+<p>While this question seems ironic when we are talking about the Big Bash, but before we break down innings by dismissals and strike rates, we first need to understand where the predominant amount of innings lie. There has been a total of 3,890 innings, with 884 of those batsmen remaining in at the crease at the close of play.</p>
 <pre class="r"><code>ggplot(bats, aes(x = R, fill = Dismissed)) +
   geom_density(alpha = .3) +
   theme_ipsum_rc() +
@@ -27,7 +27,7 @@ lastmod: '2019-01-08T21:26:19+10:00'
        title = &quot;Density of BBL Innings Runs&quot;)</code></pre>
 <p><img src="/posts/cricket/2019-01-08-bbl-batting-analytics_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>From this we can see that the predominant amount of runs score in an innings are between 0-35 runs, regardless of whether the batsman was dismissed or not. However, we can see a slightly higher proportion of “not out” innings in the innings greater than 100 runs, which is also to be expected.</p>
-<p>When assessing the 3,887 innings, we can break it down by the mode of dismissal to understand how most dismissals occur. “Caught Behinds” and “Caught and Bowled” have been separated from the general “Caught” mode of dismissal.</p>
+<p>When assessing the 3,890 innings, we can break it down by the mode of dismissal to understand how most dismissals occur. “Caught Behinds” and “Caught and Bowled” have been separated from the general “Caught” mode of dismissal.</p>
 </div>
 <div id="what-is-the-most-common-dismissal-in-big-bash" class="section level2">
 <h2>What is the most common dismissal in Big Bash?</h2>
@@ -40,7 +40,7 @@ lastmod: '2019-01-08T21:26:19+10:00'
        x = &quot;Mode of Dismissal&quot;, y = &quot;Frequency&quot;) +
   theme_ipsum_rc()  +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5))</code></pre>
-<p><img src="/posts/cricket/2019-01-08-bbl-batting-analytics_files/figure-html/unnamed-chunk-2-1.png" width="672" /> Of the 3010 dismissals, 65.9% were out caught in some form (with 82% of those caught in the outfield), 17.7% were bowled, 8.4% were run out, with only 5.1% given out LBW. Alex Ross holds the unfortunate record of being the only batsman to have been given out ‘obstructing the field’ in Big Bash. Brad Haddin, Nick Buchanan, Moises Henriques, Luke Wright, and Andre Russell are the five batsmen to have cleaned up their own stumps.</p>
+<p><img src="/posts/cricket/2019-01-08-bbl-batting-analytics_files/figure-html/unnamed-chunk-2-1.png" width="672" /> Of the 3,006 dismissals, 66% were out caught in some form (with 82% of those caught in the outfield), 17.6% were bowled, 8.4% were run out, with only 5.2% given out LBW. Alex Ross holds the unfortunate record of being the only batsman to have been given out ‘obstructing the field’ in Big Bash. Brad Haddin, Nick Buchanan, Moises Henriques, Luke Wright, and Andre Russell are the five batsmen to have cleaned up their own stumps.</p>
 <p>So now that we have understood where the bulk of the dismissals lie, we can then analyse whether there is any difference in the runs scored within each dismissal category.</p>
 </div>
 <div id="is-there-a-difference-in-the-runs-for-each-mode-of-dismissal" class="section level2">
@@ -323,6 +323,6 @@ AC Voges (c)
 </tr>
 </tbody>
 </table>
-<p>It is highly unlikely that anyone will be able to knock Jake Lehmann and Adam Voges off that list, unless someone manages to score 7 off the final delivery of an innings. However, should someone hit two 6’s off the final two balls of an innings, Hilfy will be usurped from his position on the ‘Pareto-Optimal Innings Honour Board’.</p>
+<p>Therefore, should someone hit two 6’s off the final two balls of an innings, Hilfy, Lehmann, and Voges will be usurped from their positions on the ‘Pareto-Optimal Innings Honour Board’.</p>
 <p>So that wraps up the first of a few articles that I will aim to be posting over the next few weeks in the lead-up to the start of BBL|08. Keen to hear everyone’s thoughts either here or through my twitter <span class="citation">@pointninefour</span> which I will hopefully continue to be active on across the summer.</p>
 </div>
