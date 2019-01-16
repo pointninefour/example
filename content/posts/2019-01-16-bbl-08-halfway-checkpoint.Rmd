@@ -1,0 +1,168 @@
+---
+title: BBL|08 Halfway Checkpoint
+author: Tim Newans
+date: '2019-01-16'
+slug: bbl-08-halfway-checkpoint
+categories:
+  - cricket
+tags:
+  - rstats
+lastmod: '2019-01-16T11:01:12+10:00'
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(hrbrthemes)
+library(extrafont)
+library(rPref)
+library(knitr)
+library(DT)
+library(lme4)
+library(kableExtra)
+library(effects)
+library(stringi)
+library(stringr)
+
+bats <- read.csv('C:/Users/Newans/pointninefour/static/bblbat.csv')
+bowl <- read.csv('C:/Users/Newans/pointninefour/static/bblbowl.csv')
+bats$SR <- (as.numeric(bats$R) / as.numeric(bats$B)*100)
+bats$SR <- round(bats$SR, digits = 2)
+bats$Boundaries <- (as.numeric(bats$X4s) + as.numeric(bats$X6s))
+bats$Order <- factor(bats$Order)
+bats$Captain <- ifelse(grepl("\\(c\\)", bats$Batsman), "Captain", "Not Captain")
+bats$Dismissed <- ifelse(grepl("not out", bats$Dismissal), "Not Out", "Out")
+bats$Batter <- str_trim(str_extract(bats$Batsman, "^[a-zA-Z '-]*"))
+bats$Bowler <- str_sub(str_extract(bats$Dismissal, " b (.*)"), start=3)
+bats$Bowler <- na_if(bats$Bowler,grepl(')',bats$Bowler))
+bats$Fielder <- coalesce(str_sub(str_extract(bats$Dismissal, "c .+? b"), start = 3, end = -3),
+                         str_sub(str_extract(bats$Dismissal, "st .+? b"), start = 3, end = -3),
+                         str_sub(str_extract(bats$Dismissal,"run out (.*)"), start = 10, end = -2))
+bats$Mode <- ifelse(grepl("c & b",bats$Dismissal),"Caught & Bowled",
+  ifelse(grepl("c â€",bats$Dismissal),"Caught Behind",
+     ifelse(grepl("obstruct",bats$Dismissal),"OTF",
+       ifelse(grepl("c .+? b",bats$Dismissal),"Caught",
+         ifelse(grepl("st .+? b",bats$Dismissal),"Stumped",
+           ifelse(grepl("hit wicket",bats$Dismissal),"Hit Wicket",
+             ifelse(grepl("lbw",bats$Dismissal),"LBW",
+              ifelse(grepl("run out",bats$Dismissal),"Run Out",             
+                ifelse(grepl("b ",bats$Dismissal),"Bowled", "Not Out")))))))))
+bowl$Overs <- as.numeric(substr(bowl$O,1,1))
+bowl$BallinOver <- as.numeric(substr(bowl$O,3,3))
+bowl$BallinOver[is.na(bowl$BallinOver)] <- 0
+bowl$Balls <- bowl$Overs * 6 + bowl$BallinOver
+```
+
+BBL08 has reached the halfway mark, so let's take a look back on the past four weeks of action to see what has unfolded so far. 
+
+To begin with, let's look at who our top batsmen are for BBL08. I've set a minimum of four innings to remove those that have an inflated average (such as Handscomb after only one match).
+``` {r, echo=FALSE}
+bbl08bat <- bats %>% filter(Season == "BBL08")
+sumbat08 <- group_by(bbl08bat, Batter) %>%
+  summarise(TotalRuns = sum(R), TotalBalls = sum(B), Innings = n())
+dismissals <- group_by(bbl08bat, Batter) %>% 
+  filter(Dismissed == "Out") %>%
+  summarise(Dismissals = n())
+notouts <- group_by(bbl08bat, Batter) %>% 
+  filter(Dismissed == "Not Out") %>%
+  summarise(NotOuts = n())
+sumbat08 <- left_join(sumbat08,dismissals, by = "Batter")
+sumbat08 <- left_join(sumbat08,notouts, by = "Batter")
+sumbat08$Dismissals[is.na(sumbat08$Dismissals)] <- 0
+sumbat08$NotOuts[is.na(sumbat08$NotOuts)] <- 0
+sumbat08$Average <- sumbat08$TotalRuns / sumbat08$Dismissals
+sumbat08$StrikeRate <- sumbat08$TotalRuns /sumbat08$TotalBalls*100
+datatable(sumbat08 %>% 
+          filter(Innings > 3) %>%
+          select("Batter","Innings","TotalRuns","StrikeRate","Average") %>%
+          arrange(desc(Average)) %>%
+          mutate_at(vars(StrikeRate, Average), funs(round(., 2))))
+```
+
+We see D'arcy Short dominating the list with an average of 59.17 and striking at 141.43, all while topping the run-scoring tally with 355. Jono Wells has flown under the radar, racking up 177 runs at 59 as he steadies the Strikers' middle order. Cameron Bancroft is dominating at the top of the order with 191 runs as he looks to chase down D'Arcy Short.
+On the flip-side, we see four of the bottom run-scorers coming from Brisbane Heat. Their middle order and tail are really struggling to get going and will need to improve if they want to be there come finals time.
+
+But back on D'Arcy Short, where does his season sit comparatively with other seasons? As the season is longer this year, let's cut all the seasons off at 31 games and see where everyone would be placed:
+
+``` {r, echo=FALSE}
+bat31 <- bats %>% filter(Season.Match.No < 32)
+sumbat31 <- group_by(bat31,Season, Batter) %>%
+  summarise(TotalRuns = sum(R), TotalBalls = sum(B), Innings = n())
+dismissals <- group_by(bat31, Season, Batter) %>% 
+  filter(Dismissed == "Out") %>%
+  summarise(Dismissals = n())
+notouts <- group_by(bat31, Season, Batter) %>% 
+  filter(Dismissed == "Not Out") %>%
+  summarise(NotOuts = n())
+sumbat31 <- left_join(sumbat31,dismissals, by = c("Batter","Season"))
+sumbat31 <- left_join(sumbat31,notouts, by = c("Batter","Season"))
+sumbat31$Dismissals[is.na(sumbat31$Dismissals)] <- 0
+sumbat31$NotOuts[is.na(sumbat31$NotOuts)] <- 0
+sumbat31$Average <- sumbat31$TotalRuns / sumbat31$Dismissals
+sumbat31$StrikeRate <- sumbat31$TotalRuns /sumbat31$TotalBalls*100
+datatable(sumbat31 %>% 
+          filter(Innings > 3) %>%
+          select("Season","Batter","Innings","TotalRuns","StrikeRate","Average") %>%
+          arrange(desc(TotalRuns)) %>%
+          mutate_at(vars(StrikeRate, Average), funs(round(., 2))))
+
+```
+
+What we see is that D'Arcy's season ranks fifth currently after 31 matches, with his breakout season in BBL07 still well in front of the next closest. With respect to the other two metrics, no one's average or strike rate is in the top 10 from the BBL08 season.
+
+```{r,echo=FALSE}
+bbl08bowl <- bowl %>% filter(Season == "BBL08")
+sumbowl08 <- group_by(bbl08bowl, Bowling) %>%
+  summarise(Wickets = sum(W), Balls = sum(Balls), Runs = sum(R),Innings = n())
+sumbowl08$Average <- sumbowl08$Runs / sumbowl08$Wickets
+sumbowl08$Economy <- sumbowl08$Runs/sumbowl08$Balls*6
+sumbowl08$StrikeRate <- sumbowl08$Balls /sumbowl08$Wickets
+datatable(sumbowl08 %>% 
+          filter(Innings > 3) %>%
+          arrange(Average) %>%
+          mutate_at(vars(StrikeRate, Average, Economy), funs(round(., 2))))
+
+```
+
+Here we see Rashid Khan is dominating the bowling list, with both the lowest average and economy of all the bowlers this season. Brendan Doggett, having been 12th man for the first few rounds, is coming in second for average, while Nepalese teenage sensation Sandeep Lamichhane rounds out the top three. The Perth Scorchers, despite their poor ladder performance, still have three quicks in the top 8.
+
+So how good of a season is Rashid Khan actually having? Here is his season compared to other bowlers at the 31 game mark from the past seasons. A minimum of 100 deliveries was set to ensure only bowlers who consistently bowled are displayed.
+
+``` {r, echo=FALSE}
+bowl31 <- bowl %>% filter(Season.Match.No < 32)
+sumbowl31 <- group_by(bowl31,Season, Bowling) %>%
+  summarise(Wickets = sum(W), Balls = sum(Balls), Runs = sum(R),Innings = n())
+sumbowl31$Average <- sumbowl31$Runs / sumbowl31$Wickets
+sumbowl31$Economy <- sumbowl31$Runs/sumbowl31$Balls*6
+sumbowl31$StrikeRate <- sumbowl31$Balls /sumbowl31$Wickets
+datatable(sumbowl31 %>% 
+          filter(Balls > 99) %>%
+          arrange(Average) %>%
+          mutate_at(vars(StrikeRate, Average, Economy), funs(round(., 2))),rownames = FALSE)
+```
+
+We see Rashid is sixth on the all-time list for averages, but when we sort by economy, we see he has the lowest economy ever across a season of BBL, only rivalled by Lasith Malinga's BBL02 season.
+
+How about the season as a whole? How does this season's batting strike rate and average score compare to previous seasons?
+
+``` {r}
+seasonBat <- bats %>%
+  group_by(Season) %>%
+  summarise("R" = sum(R),"B" = sum(B))
+dismissed <- bats %>%
+  filter(Mode != 'Not Out')
+dismissed <- dismissed %>%
+  group_by(Season) %>%
+  summarise("Dismissals" = n())
+seasonBat <- left_join(seasonBat, dismissed, by = "Season")
+seasonBat$StrikeRate <- seasonBat$R/seasonBat$B*100
+seasonBat$Average <- seasonBat$R/seasonBat$Dismissals
+datatable(seasonBat %>% 
+            mutate_at(vars(StrikeRate, Average), funs(round(., 2))),
+                      options = list(dom = 't'))
+```
+
+This season has seen the second lowest overall batting strike rate from the eight seasons of Big Bash, with only the second season scoring at a slower rate. Similarly we also see the second lowest batting average, with only BBL03 scoring less runs per wicket.
+
+That wraps up this halfway analysis, hope you enjoyed it. Let me know if you think anything else would be interesting to explore, I'm always looking for new things to analyse. Follow me on Twitter @pointinefour for more posts like this!
+
