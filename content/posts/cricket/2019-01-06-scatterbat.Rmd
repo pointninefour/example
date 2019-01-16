@@ -9,6 +9,8 @@ Tags:
   - scatterplot
 slug: scatterbat
 menu: main
+lastmod: '2019-01-16T21:45:40+10:00'
+
 ---
 ```{r, include=FALSE}
 library(dplyr)
@@ -18,18 +20,16 @@ library(stringr)
 library(DT)
 bats <- read.csv('C:/Users/Newans/pointninefour/static/bblbat.csv')
 bats$Batter <- str_trim(str_extract(bats$Batsman, "^[a-zA-Z '-]*"))
+ScatterBat <- bats %>% 
+                 distinct(R,B, .keep_all = TRUE) %>%
+                 select(Season, Season.Match.No, Batter, R, B)
 ```
 
 Introducing ScatterBat!
 
-ScatterBat displays every combination of runs scored and balls faced in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been 1,164 entries.
+ScatterBat displays every combination of runs scored and balls faced in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been `r nrow(ScatterBat)` entries.
 ```{r, echo=FALSE}
-ScatterBat <- bats %>% 
-                 distinct(R,B, .keep_all = TRUE) %>%
-                 select(Season, Season.Match.No, Batter, R, B) 
 colnames(ScatterBat)[colnames(ScatterBat) == 'Season.Match.No'] <- 'Match'
-
-  
 ggplot(ScatterBat, aes(R,B)) +
   geom_bin2d(binwidth = c(0.99999,0.99999)) +
   theme_ipsum_rc() +

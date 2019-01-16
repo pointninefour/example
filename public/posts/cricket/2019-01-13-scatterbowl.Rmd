@@ -7,7 +7,7 @@ categories:
   - cricket
 tags:
   - rstats
-lastmod: '2019-01-15T10:58:35+10:00'
+lastmod: '2019-01-16T10:58:35+10:00'
 menu: main
 ---
 
@@ -18,17 +18,17 @@ library(hrbrthemes)
 library(stringr)
 library(DT)
 bowl <- read.csv('C:/Users/Newans/pointninefour/static/bblbowl.csv')
-```
-
-Introducing ScatterBowl!
-
-ScatterBowl displays every combination of wickets taken and runs conceded in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been 231 entries.
-
-```{r, echo=FALSE}
 ScatterBowl <- bowl %>% 
                  distinct(W,R, .keep_all = TRUE) %>%
                  select(Season, Match.No, Bowling, W, R) 
 colnames(ScatterBowl)[colnames(ScatterBowl) == 'Match.No'] <- 'Match'
+```
+
+Introducing ScatterBowl!
+
+ScatterBowl displays every combination of wickets taken and runs conceded in Big Bash cricket. Every time that a new combination is scored, a blue square will colour in the space on the figure. Currently there have been `r nrow(ScatterBowl)` entries.
+
+```{r, echo=FALSE}
 ggplot(ScatterBowl, aes(R,W)) +
   geom_bin2d(binwidth = c(0.9999,0.9999)) +
   theme_ipsum_rc() +

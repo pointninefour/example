@@ -159,6 +159,7 @@ seasonBat$StrikeRate <- seasonBat$R/seasonBat$B*100
 seasonBat$Average <- seasonBat$R/seasonBat$Dismissals
 datatable(seasonBat %>% 
             mutate_at(vars(StrikeRate, Average), funs(round(., 2))),
+            caption = 'Big Bash Season Comparison',
                       options = list(dom = 't'))
 ```
 
