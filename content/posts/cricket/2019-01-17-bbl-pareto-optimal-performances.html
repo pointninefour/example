@@ -1,0 +1,96 @@
+---
+title: BBL Pareto-Optimal Performances
+author: Tim Newans
+date: '2019-01-17'
+slug: bbl-pareto-optimal-performances
+categories:
+  - cricket
+tags:
+  - rstats 
+  - pareto-optimal
+lastmod: '2019-01-17T13:01:58+10:00'
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/datatables-binding/datatables.js"></script>
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/dt-core/js/jquery.dataTables.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+
+
+<pre class="r"><code>BatInnPareto &lt;- psel(bats %&gt;% filter(R &gt; 0),high(R)*high(SR))
+BatInnPareto &lt;- BatInnPareto %&gt;% 
+                  select(Batter, Season, Season.Match.No,R,B,SR)%&gt;%
+                  arrange(desc(R))
+datatable(BatInnPareto, 
+          rownames = FALSE,
+          colnames = c(&#39;Batsman&#39;,&#39;Season&#39;,&#39;Match&#39;,&#39;Runs&#39;,&#39;Balls&#39;,&#39;Strike Rate&#39;),
+          caption = &#39;Table 1: Pareto-Optimal BBL Batting Innings.&#39;,
+          options = list(dom = &#39;t&#39;,pageLength = 15)) %&gt;%
+  formatRound(&#39;SR&#39;,2)</code></pre>
+<div id="htmlwidget-1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","caption":"<caption>Table 1: Pareto-Optimal BBL Batting Innings.<\/caption>","data":[["DJM Short","LJ Wright","BR McDermott","CJ Simmons","CH Gayle","DT Christian","NM Coulter-Nile","BJ Webster","AU Rashid","BW Hilfenhaus","JS Lehmann","AC Voges","Mohammad Nabi"],["BBL07","BBL01","BBL06","BBL03","BBL05","BBL04","BBL02","BBL07","BBL05","BBL03","BBL05","BBL07","BBL08"],[24,21,24,25,32,14,10,37,33,7,28,14,32],[122,117,114,102,56,34,23,18,14,10,6,6,6],[69,60,52,41,17,9,6,4,3,2,1,1,1],[176.811594202899,195,219.230769230769,248.780487804878,329.411764705882,377.777777777778,383.333333333333,450,466.666666666667,500,600,600,600]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Batsman<\/th>\n      <th>Season<\/th>\n      <th>Match<\/th>\n      <th>Runs<\/th>\n      <th>Balls<\/th>\n      <th>Strike Rate<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":15,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,15,25,50,100],"rowCallback":"function(row, data) {\nDTWidget.formatRound(this, row, data, 5, 2, 3, ',', '.');\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<pre class="r"><code>sumbat &lt;- group_by(bats, Batter) %&gt;%
+  summarise(TotalRuns = sum(R), TotalBalls = sum(B), Innings = n())
+dismissals &lt;- group_by(bats, Batter) %&gt;% 
+  filter(Dismissed == &quot;Out&quot;) %&gt;%
+  summarise(Dismissals = n())
+sumbat &lt;- left_join(sumbat,dismissals, by = &quot;Batter&quot;)
+sumbat$Dismissals[is.na(sumbat$Dismissals)] &lt;- 0
+sumbat$Average &lt;- sumbat$TotalRuns / sumbat$Dismissals
+sumbat$StrikeRate &lt;- sumbat$TotalRuns /sumbat$TotalBalls*100
+BatCarPareto &lt;- psel(sumbat %&gt;% filter(Innings &gt; 5),high(Average)*high(StrikeRate))
+BatCarPareto &lt;- BatCarPareto %&gt;% 
+                  select(Batter,TotalRuns,TotalBalls,Innings,Average,StrikeRate)%&gt;%
+                  arrange(desc(Average))
+datatable(BatCarPareto, 
+          rownames = FALSE,
+          colnames = c(&#39;Batsman&#39;,&#39;Runs&#39;,&#39;Balls&#39;,&#39;Innings&#39;,&#39;Average&#39;,&#39;Strike Rate&#39;),
+          caption = &#39;Table 2: Pareto-Optimal BBL Career Batting.&#39;,
+          options = list(dom = &#39;t&#39;,pageLength = 10)) %&gt;%
+  formatRound(5:6,2)</code></pre>
+<div id="htmlwidget-2" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"filter":"none","caption":"<caption>Table 2: Pareto-Optimal BBL Career Batting.<\/caption>","data":[["UT Khawaja","DJM Short","CA Lynn","M Bryant","AD Russell","Rashid Khan"],[956,1125,1873,195,296,99],[734,757,1221,121,178,56],[24,26,55,7,17,10],[50.3157894736842,46.875,42.5681818181818,27.8571428571429,21.1428571428571,19.8],[130.245231607629,148.612945838838,153.398853398853,161.157024793388,166.292134831461,176.785714285714]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Batsman<\/th>\n      <th>Runs<\/th>\n      <th>Balls<\/th>\n      <th>Innings<\/th>\n      <th>Average<\/th>\n      <th>Strike Rate<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nDTWidget.formatRound(this, row, data, 4, 2, 3, ',', '.');\nDTWidget.formatRound(this, row, data, 5, 2, 3, ',', '.');\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<pre class="r"><code>BowlInnPareto &lt;- psel(bowl, high(W)*low(Econ)) %&gt;% 
+  arrange(desc(W)) %&gt;% 
+  select(Bowling, Season, Season.Match.No, O, W, R, Econ)
+datatable(BowlInnPareto,
+          rownames = FALSE,
+          colnames = c(&#39;Bowler&#39;,&#39;Season&#39;,&#39;Match&#39;,&#39;Overs&#39;,&#39;Wickets&#39;,&#39;Runs&#39;,&#39;Economy&#39;),
+          caption = &#39;Table 3: Pareto-Optimal BBL Bowling Innings.&#39;,
+          options = list(dom = &#39;t&#39;))</code></pre>
+<div id="htmlwidget-3" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3">{"x":{"filter":"none","caption":"<caption>Table 3: Pareto-Optimal BBL Bowling Innings.<\/caption>","data":[["SL Malinga","MG Johnson"],["BBL02","BBL06"],[5,33],[4,4],[6,3],[7,3],[1.75,0.75]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Bowler<\/th>\n      <th>Season<\/th>\n      <th>Match<\/th>\n      <th>Overs<\/th>\n      <th>Wickets<\/th>\n      <th>Runs<\/th>\n      <th>Economy<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>sumBowl &lt;- bowl %&gt;% 
+  group_by(Bowling) %&gt;%
+  summarise(Innings = n(),Balls = sum(Balls), Wickets = sum(W), Runs = sum(R)) %&gt;%
+  filter(Wickets &gt;= 10) %&gt;%
+  arrange(desc(Wickets))
+sumBowl$Average &lt;- sumBowl$Runs/sumBowl$Wickets
+sumBowl$Economy &lt;- sumBowl$Runs/sumBowl$Balls*6
+sumBowl$StrikeRate &lt;- sumBowl$Balls/sumBowl$Wickets
+BowlCarPareto &lt;- psel(sumBowl %&gt;% 
+                         select(Bowling,Wickets,Runs,Balls,Average,Economy,StrikeRate), 
+                         low(Average)*low(Economy)*low(StrikeRate))
+datatable(BowlCarPareto, 
+          rownames = FALSE,
+          colnames = c(&#39;Bowler&#39;,&#39;Wickets&#39;,&#39;Runs&#39;,&#39;Balls&#39;,&#39;Average&#39;,&#39;Economy&#39;,&#39;Strike Rate&#39;),
+          caption = &#39;Table 4: Pareto-Optimal BBL Career Bowling.&#39;,
+          options = list(dom = &#39;t&#39;)) %&gt;%
+    formatRound(5:7,2)</code></pre>
+<div id="htmlwidget-4" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4">{"x":{"filter":"none","caption":"<caption>Table 4: Pareto-Optimal BBL Career Bowling.<\/caption>","data":[["Rashid Khan","MA Starc","AU Rashid","CR Brathwaite"],[31,20,16,12],[406,297,226,193],[456,225,208,154],[13.0967741935484,14.85,14.125,16.0833333333333],[5.34210526315789,7.92,6.51923076923077,7.51948051948052],[14.7096774193548,11.25,13,12.8333333333333]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Bowler<\/th>\n      <th>Wickets<\/th>\n      <th>Runs<\/th>\n      <th>Balls<\/th>\n      <th>Average<\/th>\n      <th>Economy<\/th>\n      <th>Strike Rate<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nDTWidget.formatRound(this, row, data, 4, 2, 3, ',', '.');\nDTWidget.formatRound(this, row, data, 5, 2, 3, ',', '.');\nDTWidget.formatRound(this, row, data, 6, 2, 3, ',', '.');\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<p><strong>Insert Lead paragraph here.</strong></p>
+<p>A augue nunc lacus auctor efficitur tempor placerat, dictum volutpat mi vitae viverra porta non sem, himenaeos senectus vivamus potenti cubilia sollicitudin. Curae cursus inceptos tincidunt magna mi nibh ad enim etiam, molestie eu quis primis hendrerit taciti phasellus. Feugiat ultricies dictumst iaculis potenti odio laoreet urna at, ultrices curae leo accumsan proin sem lobortis.</p>
+<div id="heading-2" class="section level2">
+<h2>Heading 2</h2>
+<p>Sollicitudin ornare odio blandit aenean enim lacus accumsan elementum vestibulum porta mauris lorem, ullamcorper class fermentum sem hendrerit ante augue penatibus scelerisque felis leo proin,ad nascetur venenatis sodales dignissim viverra suspendisse turpis convallis condimentum sapien.</p>
+<div id="heading-3" class="section level3">
+<h3>Heading 3</h3>
+<p>At quisque litora ullamcorper maecenas ultricies ut dignissim luctus curabitur, cras congue eget primis aliquam fringilla nulla dictum posuere, vestibulum sit magnis nisl praesent eros ipsum nunc. Ligula lacus ipsum orci aenean integer pharetra habitasse interdum, porttitor etiam hac feugiat placerat morbi posuere turpis leo, quam at amet gravida commodo fringilla erat.</p>
+</div>
+</div>

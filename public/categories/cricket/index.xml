@@ -6,10 +6,19 @@
     <description>Recent content in Cricket on Point Nine Four</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 17 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/cricket/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>BBL Pareto-Optimal Performances</title>
+      <link>/posts/cricket/bbl-pareto-optimal-performances/</link>
+      <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/cricket/bbl-pareto-optimal-performances/</guid>
+      <description>BatInnPareto &amp;lt;- psel(bats %&amp;gt;% filter(R &amp;gt; 0),high(R)*high(SR))BatInnPareto &amp;lt;- BatInnPareto %&amp;gt;% select(Batter, Season, Season.Match.No,R,B,SR)%&amp;gt;%arrange(desc(R))datatable(BatInnPareto, rownames = FALSE,colnames = c(&amp;#39;Batsman&amp;#39;,&amp;#39;Season&amp;#39;,&amp;#39;Match&amp;#39;,&amp;#39;Runs&amp;#39;,&amp;#39;Balls&amp;#39;,&amp;#39;Strike Rate&amp;#39;),caption = &amp;#39;Table 1: Pareto-Optimal BBL Batting Innings.&amp;#39;,options = list(dom = &amp;#39;t&amp;#39;,pageLength = 15)) %&amp;gt;%formatRound(&amp;#39;SR&amp;#39;,2){&#34;x&#34;:{&#34;filter&#34;:&#34;none&#34;,&#34;caption&#34;:&#34;Table 1: Pareto-Optimal BBL Batting Innings.&#34;,&#34;data&#34;:[[&#34;DJM Short&#34;,&#34;LJ Wright&#34;,&#34;BR McDermott&#34;,&#34;CJ Simmons&#34;,&#34;CH Gayle&#34;,&#34;DT Christian&#34;,&#34;NM Coulter-Nile&#34;,&#34;BJ Webster&#34;,&#34;AU Rashid&#34;,&#34;BW Hilfenhaus&#34;,&#34;JS Lehmann&#34;,&#34;AC Voges&#34;,&#34;Mohammad Nabi&#34;],[&#34;BBL07&#34;,&#34;BBL01&#34;,&#34;BBL06&#34;,&#34;BBL03&#34;,&#34;BBL05&#34;,&#34;BBL04&#34;,&#34;BBL02&#34;,&#34;BBL07&#34;,&#34;BBL05&#34;,&#34;BBL03&#34;,&#34;BBL05&#34;,&#34;BBL07&#34;,&#34;BBL08&#34;],[24,21,24,25,32,14,10,37,33,7,28,14,32],[122,117,114,102,56,34,23,18,14,10,6,6,6],[69,60,52,41,17,9,6,4,3,2,1,1,1],[176.811594202899,195,219.230769230769,248.780487804878,329.411764705882,377.777777777778,383.333333333333,450,466.666666666667,500,600,600,600]],&#34;container&#34;:&#34;\n \n \n Batsman\n Season\n Match\n Runs\n Balls\n Strike Rate\n \n \n&#34;</description>
+    </item>
     
     <item>
       <title>BBL|08 Halfway Checkpoint</title>

@@ -6,15 +6,24 @@
     <description>Recent content in Tags on Point Nine Four</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 17 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Pareto Optimal</title>
+      <link>/tags/pareto-optimal/</link>
+      <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/pareto-optimal/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Rstats</title>
       <link>/tags/rstats/</link>
-      <pubDate>Wed, 16 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/rstats/</guid>
       <description></description>
