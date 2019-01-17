@@ -53,7 +53,7 @@ bowl$BallinOver[is.na(bowl$BallinOver)] <- 0
 bowl$Balls <- bowl$Overs * 6 + bowl$BallinOver
 ```
 
-BBL08 has reached the halfway mark, so let's take a look back on the past four weeks of action to see what has unfolded so far. 
+BBL08 has reached the halfway mark, so let's take a look back on the past four weeks of action to see what has unfolded so far. There has been much discussion around social media about whether lengthening the BBL season has led to a worse competition.
 
 To begin with, let's look at who our top batsmen are for BBL08. I've set a minimum of four innings to remove those that have an inflated average (such as Handscomb after only one match).
 ``` {r, echo=FALSE}
