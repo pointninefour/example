@@ -1,59 +1,0 @@
-]0;:/c/Users/Newans/pointninefour[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git c[0K[?25hh[0Ke[0K[?25lc[0K[10G[?25h[11G[?25l$ git check[0K[?25ho[0Ku[0Kt[0K[16G[?25l$ git checkout -[0K[?25hb[0K[19G[?25l$ git checkout -b t[0K[?25hr[0Ki[0Ka[0Kl[0K[?25l
-[0K[?25hSwitched to a new branch 'trial'[0K[?25l
-[0K[?25hM       .Rproj.user/9DB6AAA0/console06/7E6173EA[0K[?25l
-M       .Rproj.user/9DB6AAA0/console06/INDEX001[0K
-M       .Rproj.user/9DB6AAA0/sources/prop/41BA7B66[0K
-M       .Rproj.user/9DB6AAA0/sources/prop/INDEX[0K
-M       config.toml[0K
-M       content/about.md[0K
-M       content/posts/cricket/2019-01-06-scatterbat.Rmd[0K
-M       content/posts/cricket/2019-01-06-scatterbat.html[0K
-M       content/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling.Rmd[0K
-M       content/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling.html[0K
-M       content/posts/cricket/2019-01-13-scatterbowl.Rmd[0K
-M       content/posts/cricket/2019-01-13-scatterbowl.html[0K
-M       public/404.html[0K
-M       public/about/index.html[0K
-M       public/bblbat.csv[0K
-M       public/bblbowl.csv[0K
-M       public/categories/cricket/index.html[0K
-M       public/categories/cricket/index.xml[0K
-M       public/categories/index.html[0K
-M       public/index.html[0K
-M       public/index.xml[0K
-M       public/posts/cricket/2019-01-06-scatterbat.Rmd[0K
-M       public/posts/cricket/2019-01-06-scatterbat_files/figure-html/unnamed-chunk-2-1.png[0K
-M       public/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling.Rmd[0K
-M       public/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-1-1.png[0K
-M       public/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-5-1.png[0K
-M       public/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-7-1.png[0K
-M       public/posts/cricket/2019-01-13-scatterbowl.Rmd[0K
-M       public/posts/cricket/an-analytical-guide-to-bbl-bowling/index.html[0K
-M       public/posts/cricket/bbl-batting-analytics/index.html[0K
-M       public/posts/cricket/scatterbat/index.html[0K
-M       public/posts/cricket/scatterbowl/index.html[0K
-M       public/posts/index.html[0K
-M       public/posts/index.xml[0K
-M       public/sitemap.xml[0K
-M       public/tags/index.html[0K
-M       public/tags/rstats/index.html[0K
-M       public/tags/rstats/index.xml[0K
-M       public/tags/scatterplot/index.html[0K
-M       public/tags/scatterplot/index.xml[0K
-M       static/bblbat.csv[0K
-M       static/bblbowl.csv[0K
-M       static/posts/cricket/2019-01-06-scatterbat_files/figure-html/unnamed-chunk-2-1.png[0K
-M       static/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-1-1.png[0K
-M       static/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-5-1.png[0K
-M       static/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-7-1.png[0K
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial)[0m[0K
-]0;:/c/Users/Newans/pointninefour[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[3G[?25h[4G[?25l$ gi[0K[?25ht[0K[7G[?25l$ git r[0K[?25hm[0K[10G[?25l$ git rm -[0K[?25hr[0K[13G[?25l$ git rm -r -[0K[?25h-[0Kc[0Ka[0Kc[0Kh[0Ke[0Kd[0K[22G[?25l$ git rm -r --cached /[0K[?25hR[0Kp[0Kr[0Kj[0K[?25l$ git rm -r --cached /Rpr[0K[?25ho[0Kj[0K.[0Ku[0Ks[0Ke[0Kr[0K[?25l
-[0K[?25hfatal: C:/Program Files/Git/Rproj.user: 'C:/Program Files/Git/Rproj.user' is outside repository[0K[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git r[0K[?25hm[0K[10G[?25l$ git rm -[0K[?25hr[0K[13G[?25l$ git rm -r -[0K[?25h-[0Kc[0Ka[0Kc[0Kh[0Ke[0Kd[0K
