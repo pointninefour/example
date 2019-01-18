@@ -1,118 +1,0 @@
-]0;:/c/Users/Newans/pointninefour[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git c[0K[?25hh[0Ke[0K[?25lc[0K[10G[?25h[11G[?25l$ git check[0K[?25ho[0Ku[0Kt[0K[16G[?25l$ git checkout -[0K[?25hb[0K[19G[?25l$ git checkout -b t[0K[?25hr[0Ki[0Ka[0Kl[0K[?25l
-[0K[?25hSwitched to a new branch 'trial'[0K[?25l
-[0K[?25hM       .Rproj.user/9DB6AAA0/console06/7E6173EA[0K[?25l
-M       .Rproj.user/9DB6AAA0/console06/INDEX001[0K
-M       .Rproj.user/9DB6AAA0/sources/prop/41BA7B66[0K
-M       .Rproj.user/9DB6AAA0/sources/prop/INDEX[0K
-M       config.toml[0K
-M       content/about.md[0K
-M       content/posts/cricket/2019-01-06-scatterbat.Rmd[0K
-M       content/posts/cricket/2019-01-06-scatterbat.html[0K
-M       content/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling.Rmd[0K
-M       content/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling.html[0K
-M       content/posts/cricket/2019-01-13-scatterbowl.Rmd[0K
-M       content/posts/cricket/2019-01-13-scatterbowl.html[0K
-M       public/404.html[0K
-M       public/about/index.html[0K
-M       public/bblbat.csv[0K
-M       public/bblbowl.csv[0K
-M       public/categories/cricket/index.html[0K
-M       public/categories/cricket/index.xml[0K
-M       public/categories/index.html[0K
-M       public/index.html[0K
-M       public/index.xml[0K
-M       public/posts/cricket/2019-01-06-scatterbat.Rmd[0K
-M       public/posts/cricket/2019-01-06-scatterbat_files/figure-html/unnamed-chunk-2-1.png[0K
-M       public/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling.Rmd[0K
-M       public/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-1-1.png[0K
-M       public/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-5-1.png[0K
-M       public/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-7-1.png[0K
-M       public/posts/cricket/2019-01-13-scatterbowl.Rmd[0K
-M       public/posts/cricket/an-analytical-guide-to-bbl-bowling/index.html[0K
-M       public/posts/cricket/bbl-batting-analytics/index.html[0K
-M       public/posts/cricket/scatterbat/index.html[0K
-M       public/posts/cricket/scatterbowl/index.html[0K
-M       public/posts/index.html[0K
-M       public/posts/index.xml[0K
-M       public/sitemap.xml[0K
-M       public/tags/index.html[0K
-M       public/tags/rstats/index.html[0K
-M       public/tags/rstats/index.xml[0K
-M       public/tags/scatterplot/index.html[0K
-M       public/tags/scatterplot/index.xml[0K
-M       static/bblbat.csv[0K
-M       static/bblbowl.csv[0K
-M       static/posts/cricket/2019-01-06-scatterbat_files/figure-html/unnamed-chunk-2-1.png[0K
-M       static/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-1-1.png[0K
-M       static/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-5-1.png[0K
-M       static/posts/cricket/2019-01-12-an-analytical-guide-to-bbl-bowling_files/figure-html/unnamed-chunk-7-1.png[0K
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial)[0m[0K
-$[0K[3G[?25h[?25l$ git checkout -b trial[0K[?25h[?25l
-[0K[?25hfatal: A branch named 'trial' already exists.[0K[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (master)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git c[0K[?25hh[0Ke[0Kc[0Kk[0Ko[0Ku[0Kt[0K[16G[?25l$ git checkout -[0K[?25hb[0K[19G[?25l$ git checkout -b t[0K[?25hr[0Ki[0Ka[0Kl[0K2[0K[?25l
-[0K[?25hSwitched to a new branch 'trial2'[0K[?25l
-M       .Rproj.user/9DB6AAA0/console06/7E6173EA[0K
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
-$[0K[3G[?25h[?25l$ g[0K[?25hi[0Kt[0K[7G[?25l$ git p[0K[?25hu[0Ks[0Kh[0K[12G[?25l$ git push o[0K[?25hr[0Ki[0Kg[0Ki[0Kn[0K[19G[?25l$ git push origin t[0K[?25hr[0Ki[0Ka[0Kl[0K2[0K[?25l
-[0K[?25hEnumerating objects: 172, done.[0K[?25l
-Counting objects:  18% (31/172)[0K[1G[?25h[?25lCounting objects:  33% (57/172)[0K[1G[?25h[?25lCounting objects:  68% (117/172)[0K[1G[?25hCounting objects: 100% (172/172), done.[0K[?25l
-Delta compression using up to 8 threads.[0K
-Compressing objects:  11% (10/88)[0K[1G[?25h[?25lCompressing objects:  96% (85/88)[0K[1G[?25hCompressing objects: 100% (88/88), done.[0K[?25l
-Writing objects:  49% (55/111)[0K[23G[?25h[?25lWriting objects: 100% (111/111), 159.95 KiB | 3.63 MiB/s, done.[0K
-Total 111 (delta 48), reused 0 (delta 0)[0K
-[0K[?25hremote: Resolving deltas: 100% (48/48), completed with 30 local objects.[0K[?25l
-remote:[0K
-remote: To create a merge request for trial2, visit:[0K
-remote:   https://gitlab.com/pointninefour/website/merge_requests/new?merge_request%5Bsource_branch%5D=trial2[0K
-remote:[0K
-To https://gitlab.com/pointninefour/website.git[0K
- * [new branch]      trial2 -> trial2[0K
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
-$[0K[3G[?25h[?25l$ h[0K[?25hg[0K[?25l$ h[0K[?25hu[0K[?25lg[0K[5G[?25h[6G[?25l$ hugo[0K[?25h[?25l
-[0K[?25hbash: hugo: command not found[0K[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
-$[0K[3G[?25h[?25l$ h[0K[?25hu[0Kg[0Ko[0K[?25l
-[0K[?25hbash: hugo: command not found[0K[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
-$[0K[3G[?25h[?25l$ h[0K[?25hu[0Kg[0Ko[0K[8G[?25l$ hugo -[0K[?25h-[0Kv[0Ke[0Kr[0Kb[0Ko[0Ks[0Ke[0K[?25l
-[0K[?25hbash: hugo: command not found[0K[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K[24G[?25h[?25l
-$[0K[3G[?25h[?25l$ hugo --verbose[0K[?25h[?25l$ hugo[0K[?25h[?25l
-[0K[?25hbash: hugo: command not found[0K[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
-$[0K[3G[?25h[?25l$ hugo[0K[?25h --verbose[0K[?25l
-[0K[?25hbash: hugo: command not found[0K[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
-$[0K[3G[?25h[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K[25G[?25h[?25l
-$[0K[3G[?25h[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
-$[0K[3G[?25h[?25l$ w[0K[?25hg[0K[?25l$ w[0K[?25hh[0Ke[0K[?25lr[0K[6G[?25h[7G[?25l$ where[0K[?25h[9G[?25l$ where h[0K[?25hu[0Kg[0Ko[0K[?25l
-[0K[?25hINFO: Could not find files for the given pattern(s).[0K[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
-$[0K[3G[?25h[?25l$ where hugo[0K[?25h[?25l
-[0K[?25hINFO: Could not find files for the given pattern(s).[0K[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
-$[0K[3G[?25h[?25l$ where hugo[0K[?25h[?25l
-[0K[?25hINFO: Could not find files for the given pattern(s).[0K[?25l
-[0K[?25h[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
-]0;:/c/Users/Newans/pointninefour[?25l
-[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
-$[0K[3G[?25h
