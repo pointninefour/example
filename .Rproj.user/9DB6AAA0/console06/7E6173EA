@@ -75,4 +75,44 @@ To https://gitlab.com/pointninefour/website.git[0K
  * [new branch]      trial2 -> trial2[0K
 [0K[?25h[?25l
 [0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
+$[0K[3G[?25h[?25l$ h[0K[?25hg[0K[?25l$ h[0K[?25hu[0K[?25lg[0K[5G[?25h[6G[?25l$ hugo[0K[?25h[?25l
+[0K[?25hbash: hugo: command not found[0K[?25l
+[0K[?25h[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
+$[0K[3G[?25h[?25l$ h[0K[?25hu[0Kg[0Ko[0K[?25l
+[0K[?25hbash: hugo: command not found[0K[?25l
+[0K[?25h[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
+$[0K[3G[?25h[?25l$ h[0K[?25hu[0Kg[0Ko[0K[8G[?25l$ hugo -[0K[?25h-[0Kv[0Ke[0Kr[0Kb[0Ko[0Ks[0Ke[0K[?25l
+[0K[?25hbash: hugo: command not found[0K[?25l
+[0K[?25h[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K[24G[?25h[?25l
+$[0K[3G[?25h[?25l$ hugo --verbose[0K[?25h[?25l$ hugo[0K[?25h[?25l
+[0K[?25hbash: hugo: command not found[0K[?25l
+[0K[?25h[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
+$[0K[3G[?25h[?25l$ hugo[0K[?25h --verbose[0K[?25l
+[0K[?25hbash: hugo: command not found[0K[?25l
+[0K[?25h[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
+$[0K[3G[?25h[?25l
+[0K[?25h[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K[25G[?25h[?25l
+$[0K[3G[?25h[?25l
+[0K[?25h[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
+$[0K[3G[?25h[?25l$ w[0K[?25hg[0K[?25l$ w[0K[?25hh[0Ke[0K[?25lr[0K[6G[?25h[7G[?25l$ where[0K[?25h[9G[?25l$ where h[0K[?25hu[0Kg[0Ko[0K[?25l
+[0K[?25hINFO: Could not find files for the given pattern(s).[0K[?25l
+[0K[?25h[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
+$[0K[3G[?25h[?25l$ where hugo[0K[?25h[?25l
+[0K[?25hINFO: Could not find files for the given pattern(s).[0K[?25l
+[0K[?25h[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
+$[0K[3G[?25h[?25l$ where hugo[0K[?25h[?25l
+[0K[?25hINFO: Could not find files for the given pattern(s).[0K[?25l
+[0K[?25h[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
+]0;:/c/Users/Newans/pointninefour[?25l
+[0;32mNewans@DESKTOP-9LPUBPO [0;35m [0;33m~/pointninefour[0;36m (trial2)[0m[0K
 $[0K[3G[?25h
